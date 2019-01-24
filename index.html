@@ -1,1 +1,47 @@
+<!DOCTYPE html>
 <html>
+    <head>
+        <style> 
+/*
+            div {
+                width: 100px;
+                height: 100px;
+                text-align: center;
+                background: red;
+                -webkit-transition: width 2s;  For Safari 3.1 to 6.0 
+                transition: width 2s;
+            }
+*/
+
+/*
+            div:hover {
+                width: 300px;
+            }
+*/
+            #a {
+                display: block;
+                width: 100px;
+                height: 100px;
+                background: red;
+            }
+            #a:hover + #b {
+                display: block;
+            }
+            
+            #b {
+                display: none;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div id="a"><p id="b">test</p></div>
+        <div href="#" id='a'>
+     Hover me<div id='b'>
+    Show me
+</div>
+ </div>
+
+
+    </body>
+</html>
