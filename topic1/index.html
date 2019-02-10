@@ -1,0 +1,189 @@
+<html>
+<head>
+    <title>Topic 1</title>
+</head>
+<body>
+    <h2>Loops</h2>
+    <p>Loops are a very valuable resource for developers. It allows you to repeat code many times over without having to type it out each time. Given the right variables you can make slight changes to each iteration</p>
+    <h3>For</h3>
+    <p>The for loop is great for iterating through arrays as you increase the index number. It takes three statements: first is usually for initializing variables, second is for adding a condition for when to stop the loop, the last statement is used for changing the index value. each statement is optional</p>
+    <p id="forloop"></p>
+    <h3>For/in</h3>
+    <p>The for in loop is great for objects or associative arrays. It is also has a very clean fill to them</p>
+    <p id="forinloop"></p>
+    <h3>While</h3>
+    <p>The while loop is similar to the for loop, except that it only takes the conditional statement and does not set variables or change them.</p>
+    <p id="whileloop"></p>
+    <h3>Do While</h3>
+    <p>The do while is unique among the loops as it will always run the code at least once.</p>
+    <p id="dowhileloop"></p>
+    <h2>Conditional</h2>
+    <h3>if</h3>
+    <p>The if condition is used to test a value and display the code within if it is true. The example below states if variable i is equal to 3</p>
+    <p id="if"></p>
+    <h3>else</h3>
+    <p>The else condition is like an add on to the if condition. If the first statement is false then the else code is used. It works great for error messages, you can make it so anything but what you have in the if condition returns an error</p>
+    <p id="else"></p>
+    <h3>else if</h3>
+    <p>the else if statement is another add on to the if condition. When used, it comes before the else statment. Unlike the if and else, the else if statment can be used multiple times. Like the if condition, each of the else if needs a condition to check</p>
+    <p id="elseif"></p>
+    <h3>switch</h3>
+    <p>The switch condition is similar to the construction of the if, else if and else. The difference is there is only one variable that is checked over multiple conditions. It has a default case that is like the else portion of the other condition statement. </p>
+    <p id="switch"></p>
+    <h2>Statements</h2>
+    <p>Statements include variables and keywords. It is important to use semicolons at the end of the statement. white spaces and linebreaks can be added for code readability. Statements can be placed in blocks with functions. Keywords include break, continue, return and more</p>
+    <p id="statements"></p>
+    <h2>Functions</h2>
+    <p>As stated above functions allow code to be put in blocks. It allows the code to be reused.</p>
+    <p id="function"></p>
+    <h2>Variables</h2>
+    <p>I have used variables allthroughout my Javascript, they works a lot like Algebra. "A + B = C" Setting variables is as easy as using a single equals sign. They also need the "var" when the variable is first created.</p>
+    <h2>Parameters</h2>
+    <p>Parameters are often used with functions. They allow flexability in the variable values in the code block. I have used different values for the function used before.</p>
+    <p id="parameters"></p>
+    <h2>Arrays</h2>
+    <p>Arrays are often refered to as buckets of variables. It connects data together. They are great for similar information, like first name and last name. All the values have an index number connected with it; starting at 0.</p>
+    <p id="arrays"></p>
+    <h2>Associative Arrays</h2>
+    <p>Associative arrays are arrays that use names for indexes rather than numbers</p>
+    <p id="associativearrays"></p>
+    <script>
+        /************************ for loop *************************/
+        var array = ["iteration 1", "iteration 2", "iteration 3"];
+        var i;
+        var values = "";
+        
+        for (i = 0; i < array.length; i++) {
+            values += array[i] + "<br>";
+        }
+        document.getElementById("forloop").innerHTML = values;
+        
+        i = 0
+        for (; i < 10; ) {
+            values += "count " + i + "<br>";
+            i++
+        }
+        document.getElementById("forloop").innerHTML = values;
+        
+        
+        /************************ for/in loop *************************/
+        values = "";
+        var obj = {value1: "v1", value2: "v2", value3: "v3"}
+        var item;
+        
+        for (item in obj) {
+            values += obj[item] + "<br>"
+        }
+        document.getElementById("forinloop").innerHTML = values;
+        
+        
+        /************************ while loop *************************/
+        values = "";
+        i = 0
+        while (i < 5) {
+            values += "while" + i + "<br>"
+            i++;
+        }
+        document.getElementById("whileloop").innerHTML = values;
+        
+        
+        /********************** do while loop ***********************/
+        values = "";
+        do {
+            values += "do while" + i + "<br>"
+            i++;
+        } while (i < 5) 
+        document.getElementById("dowhileloop").innerHTML = values;
+        
+        
+        /********************* if conditional ***********************/
+        i = 3
+        if(i == 3) {
+            values = "true";
+        }
+        document.getElementById("if").innerHTML = values;
+        
+        /******************** else conditional **********************/
+        if(i == 4){
+            values = "if";
+        } else {
+            values = "else";
+        }
+        document.getElementById("else").innerHTML = values;
+        
+        /******************* else if conditional *********************/
+        if(i == 1) {
+            values = "if";
+        } else if (i == 2) {
+            values = "first else if";
+        } else if (i == 3) {
+            values = "second else if";
+        } else {
+            values = "else"
+        }
+        document.getElementById("elseif").innerHTML = values;
+        
+        /******************* switch conditional *********************/
+        switch(i) {
+            case 0:
+                values = "case 0";
+                break;
+            case 1:
+                values = "case 1";
+                break;
+            case 2:
+                values = "case 2";
+                break;
+            case 3:
+                values = "case 3";
+                break;
+            case 4:
+                values = "case 4";
+                break;
+            case 5:
+                values = "case 5";
+                break;
+            default:
+                values = "default";
+        }
+        document.getElementById("switch").innerHTML = values;
+        
+        /********************** statements ************************/
+        for (i = 0; i < 5; i++) {
+            values = i;
+            if (i == 2) {
+                break;
+            }
+        }
+        document.getElementById("statements").innerHTML = values;
+        
+        /*********************** variables *************************/
+        var var1, var2, var3;
+        
+        /*********************** functions *************************/
+        function func(param1, param2) {
+            return param1 + param2;
+        }
+        document.getElementById("function").innerHTML = func(1, 2);
+        
+        /*********************** parameters *************************/
+        document.getElementById("parameters").innerHTML = func(5, 4);
+        
+        /************************* arrays ***************************/
+        values = "";
+        var arr = ["val1", "val2", "val3"];
+        var arrayNum = new Array(1, 2, 3);
+        for (i = 0; i < arr.length; i++) {
+            values += arr[i] + " ";
+        }
+        document.getElementById("arrays").innerHTML = values;
+        
+        /******************* associative arrays *********************/
+        var asocArr = [];
+        asocArr["index1"] = "val1";
+        asocArr["index2"] = "val2";
+        document.getElementById("associativearrays").innerHTML = asocArr["index2"];
+        
+    </script>
+</body>
+</html>
