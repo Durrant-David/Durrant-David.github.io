@@ -1,0 +1,98 @@
+<html>
+
+<head></head>
+
+<body>
+    <div>
+        <audio playsinline controls autoplay muted loop>
+            <source src="bensound-summer.mp3" type="audio/mpeg">
+        </audio>
+        <span>
+            Audio from <a href="https://www.bensound.com">bensound</a>
+        </span>
+    </div>
+    <div>
+        <video width="320" height="240" controls loop poster="bunch-cluster-delicious-708777.jpg">
+            <source src="Merlot.mp4" type="video/mp4">
+        </video>
+        <span>
+            Video from <a href="https://all-free-download.com/free-footage/merlot_grape_145.html">all-free-download</a>
+            poster from <a href="https://www.pexels.com/photo/grape-fruits-708777/">pexels</a>
+        </span>
+    </div>
+    <div>
+        <canvas id="canvas" width="300" height="300">
+        </canvas>
+    </div>
+    <script>
+        var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+
+        //START H
+        //first vertical line
+        ctx.beginPath();
+        ctx.moveTo(20, 20);
+        ctx.lineTo(20, 100);
+        ctx.strokeStyle = "blue";
+        ctx.stroke();
+
+        //horizontal line
+        ctx.beginPath();
+        ctx.moveTo(20, 60);
+        ctx.lineTo(70, 60);
+        ctx.strokeStyle = "blue";
+        ctx.stroke();
+
+        //second vertical line
+        ctx.beginPath();
+        ctx.moveTo(70, 20);
+        ctx.lineTo(70, 100);
+        ctx.strokeStyle = "blue";
+        ctx.stroke();
+        //END H
+
+        //START E
+        //curve
+        ctx.beginPath();
+        ctx.arc(110, 73, 25, 14, 0);
+        ctx.strokeStyle = "grey";
+        ctx.stroke();
+
+        //horizontal line
+        ctx.beginPath();
+        ctx.moveTo(85, 73);
+        ctx.lineTo(136, 73);
+        ctx.strokeStyle = "grey";
+        ctx.stroke();
+        //END E
+
+        //START L
+        //vertical line
+        ctx.beginPath();
+        ctx.moveTo(150, 20);
+        ctx.lineTo(150, 100);
+        ctx.strokeStyle = "red";
+        ctx.stroke();
+        //END L
+
+        //START L
+        //vertical line
+        ctx.beginPath();
+        ctx.moveTo(175, 20);
+        ctx.lineTo(175, 100);
+        ctx.strokeStyle = "yellow";
+        ctx.stroke();
+        //END L
+
+        //START O
+        //circle
+        ctx.beginPath();
+        ctx.arc(215, 73, 25, 0, 2 * Math.PI);
+        ctx.strokeStyle = "green";
+        ctx.stroke();
+        //END O
+        
+    </script>
+</body>
+
+</html>

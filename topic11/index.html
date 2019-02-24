@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <style>
+        #refresh {
+            transition: 0.5s;
+            transition-timing-function: linear;
+        }
+
+        #refresh:hover {
+            transform: rotate(360deg);
+        }
+
+        #grow {
+            margin: 50px;
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+            transition: width 2s, height 4s, background-color 6s;
+        }
+
+        #grow:hover {
+            width: 500px;
+            height: 500px;
+            background-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div id="grow"></div>
+    </div>
+    <div>
+        <div>
+            <image src="refresh-page-option.png" id="refresh"></image>
+            <p>Hover Me</p>
+        </div>
+        <div>Icon made by
+            <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">
+                Dave Gandy
+            </a>
+            from
+            <a href="https://www.flaticon.com/" title="Flaticon">
+                www.flaticon.com
+            </a>
+            is licensed by
+            <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">
+                CC 3.0 BY
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>
