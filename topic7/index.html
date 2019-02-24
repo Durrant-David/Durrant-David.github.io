@@ -1,0 +1,85 @@
+<html>
+    <head>
+    <style>
+        body {
+            background-color: white;
+        }
+        
+        #shape {
+            margin: 50px;
+        }
+
+        .circle {
+            border-radius: 50%;
+            border: 3px solid red;
+            height: 200px;
+            width: 200px;
+            transition: border-radius 2s;
+        }
+
+        .square {
+            /*            border-radius: 50%;*/
+            border: 3px solid red;
+            height: 200px;
+            width: 200px;
+            transition: border-radius 2s;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div id="shape" class="circle"></div>
+    <button onclick="shape()">Toggle</button>
+    <button onclick="backgroundChange('cyan')">background</button>
+    <p id="bold">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque luctus mollis nibh, ac tempus sem pretium nec. Quisque placerat nunc at turpis tincidunt, eget pretium ligula congue. Integer eu dolor at metus hendrerit vehicula eu quis lectus. Suspendisse tortor risus, fermentum ut metus tincidunt, consectetur mattis nulla. Nam gravida, nulla sed euismod feugiat, nisi turpis scelerisque tortor, quis scelerisque tortor libero quis massa. Duis lacinia neque eu accumsan condimentum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis nec nisl mauris. In vestibulum feugiat nisl, eu posuere mi bibendum in. Sed ut nisi ut felis dapibus finibus. Vivamus quis dui at metus ultricies volutpat.</p>
+    <button onclick="bold()">Bold</button>
+
+    <p id="italic">Duis id erat laoreet, placerat arcu eu, imperdiet enim. Etiam laoreet orci id blandit faucibus. Duis quis purus ligula. Morbi non fringilla eros. Maecenas consectetur diam id massa placerat, id luctus ligula malesuada. Donec pellentesque, libero ac rutrum semper, dui dolor pharetra justo, vitae varius nunc justo eget augue. Nulla sollicitudin viverra sapien, eu dignissim massa pellentesque ut. Morbi cursus leo vitae odio porttitor facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse id felis turpis. Aenean vehicula lorem sit amet mollis pharetra. Aenean viverra lorem vel odio laoreet, et maximus nisl elementum. Proin vitae semper erat, vitae rhoncus quam. Praesent nec dapibus nulla, sit amet scelerisque nibh.</p>
+    <button onclick="italic()">Italic</button>
+
+    <p id="width">Vivamus sit amet laoreet velit, quis fermentum magna. Nam vitae elit imperdiet, gravida mauris porta, dapibus nibh. Etiam porta arcu nulla, vel sollicitudin eros elementum sit amet. Vivamus vulputate, enim sit amet feugiat ultrices, nulla sapien vehicula justo, a aliquam mauris lacus ac sapien. Quisque tincidunt lorem quis metus condimentum aliquet. Fusce fermentum bibendum dui, accumsan sagittis est tempus et. Pellentesque fringilla tellus sit amet vehicula commodo. Quisque lorem odio, pharetra quis efficitur eget, sollicitudin sagittis mauris. Phasellus ut velit id mi pulvinar dignissim sit amet at sem. Nulla interdum tellus facilisis leo vulputate, ac vulputate odio fringilla. Morbi ligula orci, finibus et arcu ac, blandit pulvinar augue. Nulla maximus aliquam diam ac ullamcorper.</p>
+    <button onclick="width()">Width</button>
+
+    <p id="border">Suspendisse a purus enim. Ut ut justo a quam suscipit interdum ut a libero. Cras et nisi ullamcorper, suscipit lectus a, interdum purus. Praesent leo nisl, lobortis non est vitae, facilisis lobortis metus. Suspendisse potenti. Quisque orci neque, porta et venenatis eget, tincidunt ultrices magna. Mauris ex orci, imperdiet pretium metus id, porta maximus justo. Aenean vel laoreet neque. Integer ultrices arcu eget ex hendrerit dapibus. Aliquam purus mi, tincidunt at eros ac, mollis facilisis elit. Duis pretium eros quis varius auctor. Etiam interdum venenatis finibus.</p>
+    <button onclick="border()">Border</button>
+
+    <p id="margin">Mauris felis nulla, accumsan in ultrices id, aliquam nec mauris. Ut eget orci sapien. Nam nec rhoncus orci, vel tempus magna. Pellentesque consectetur pellentesque tincidunt. Nulla sollicitudin dui sed vulputate fringilla. Integer dignissim ipsum ornare, maximus mi non, aliquet tortor. Nullam vel scelerisque neque, et ornare nisi. Quisque maximus quam nec vestibulum finibus.</p>
+    <button onclick="margin()">Margin</button>
+    <script>
+        function backgroundChange(color) {
+            document.body.style.backgroundColor = color;
+        }
+
+        function shape() {
+            if (document.getElementById("shape").classList.contains("circle")) {
+                document.getElementById("shape").classList.remove("circle");
+                document.getElementById("shape").classList.add("square");
+            } else {
+                document.getElementById("shape").classList.add("circle");
+                document.getElementById("shape").classList.remove("square");
+            }
+        }
+        
+        function bold() {
+            document.getElementById("bold").style.fontWeight = "900";
+        }
+        
+        function italic() {
+            document.getElementById("italic").style.fontStyle = "italic";
+        }
+        
+        function width() {
+            document.getElementById("width").style.width = "300px";
+        }
+        
+        function border() {
+            document.getElementById("border").style.border = "thick solid #0000FF";
+        }
+        
+        function margin() {
+            document.getElementById("margin").style.margin = "10px";
+        }
+    </script>
+</body>
+</html>
