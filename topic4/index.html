@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Topic 4</title>
+</head>
+
+<body>
+    <h2>XMLHTTPRequest</h2>
+    <p id="JSON"></p>
+
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        var url = "books.txt";
+
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var books = JSON.parse(this.responseText);
+                displayBooks(books);
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+
+        function displayBooks(books) {
+            var out = "";
+            var x;
+            for(x in books) {
+                console.log(books[x]);
+                out += '<p>Title: ' + books[x].title + '<br> Author: ' + books[x].author + '<br> Published: ' + books[x].published + '<br> Pages: ' + books[x].pages + '</p>';
+            }
+            document.getElementById("JSON").innerHTML = out;
+        }
+
+    </script>
+</body>
+</html>

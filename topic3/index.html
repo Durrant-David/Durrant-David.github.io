@@ -1,0 +1,82 @@
+<html>
+<head>
+    <title>Topic 3</title>
+</head>
+
+<body>
+    <h2>JSON Parse, Stringify</h2>
+    <p id="stringify"></p>
+    <p id="parse"></p>
+    <p id="book3"></p>
+    <p id="book4"></p>
+    <p id="get"></p>
+
+    <script>
+        /************************ Objects *************************/
+        var book1 = {title: "Elantris", author: "Brandon Sanderson", published: "June 30, 2006", pages: 622};
+        
+        var book2 = {
+            title: "Storm Front",
+            author: "Jim Butcher",
+            published: "May 1, 2000",
+            pages: 332,
+            display: function() {
+                return "title = " + this.title +
+                       ", Author = " + this.author +
+                       ", published = " + this.published +
+                       ", Pages = " + this.pages;
+            },
+            get bookTitle() {
+                return this.title;
+            },
+            set bookTitle(title) {
+                this.title = title;
+            }
+            
+        };
+            
+        var book3 = new Object();
+            book3.title = "The Black Prism";
+            book3.author = "Brent Weeks";
+            book3.published = "September 25, 2010";
+            book3.pages = 678;
+        
+        function Book(title, author, published, pages) {
+            this.title = title;
+            this.author = author;
+            this.published = published;
+            this.display = function() {
+                return "title = " + this.title +
+                       ", Author = " + this.author +
+                       ", published = " + this.published +
+                       ", pages = " + this.pages;
+            }
+        }
+        
+        Book.prototype.pages = 376;
+        var book4 = new Book("Martin the Warrior", "Brian Jacques", "October 30, 1999");
+        
+        /************************ JSON Stringify *************************/
+        var stringifyJSON = JSON.stringify({
+            book1: book1,
+            book2: book2,
+            book3: book3,
+            book4: book4
+        });
+        document.getElementById("stringify").innerHTML = stringifyJSON;
+
+        
+        /************************ JSON Parse *************************/
+        var parseJSON = JSON.parse(document.getElementById("stringify").innerHTML);
+        var x;
+        values = "";
+        var obj = parseJSON["book1"];
+        for (x in obj) {
+          values += obj[x] + " ";
+        }
+        document.getElementById("parse").innerHTML = values;
+
+        
+    </script>
+</body>
+</html>

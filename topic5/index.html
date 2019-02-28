@@ -1,0 +1,66 @@
+<html>
+<head>
+    <title>Topic 5</title>
+</head>
+
+<body>
+    <h2>Local Storage API</h2>
+    <p id="string"></p>
+    <p id="num"></p>
+    <p id="array"></p>
+    <p id="assocArray"></p>
+    <p id="object"></p>
+    <p id="get"></p>
+    <input id="first" type="text" name="first" placeholder="First name">
+    <input id="last" type="text" name="last" placeholder="Last name">
+    <button onclick="storeName()">Submit</button>
+
+    <script>
+        /************************ simple data *************************/
+        localStorage.setItem("string", "this is a simple string");
+        document.getElementById("string").innerHTML = localStorage.string;
+
+        if (localStorage.num) {
+            localStorage.num = Number(localStorage.num) + 1;
+        } else {
+            localStorage.num = 1;
+        }
+        document.getElementById("num").innerHTML = localStorage.num;
+
+
+        /************************ Array *************************/
+        var titles = ["Elantris", "Storm Front", "The Black Prism", "Martin the Warrior"];
+        localStorage.setItem("titles", titles);
+        document.getElementById("array").innerHTML = localStorage.titles;
+
+
+        /************************ Associative Array *************************/
+        function storeName() {
+            var fullname = {};
+            fullname['first'] = document.getElementById("first").value;
+            fullname['last'] = document.getElementById("last").value;
+            localStorage.setItem("fullname", JSON.stringify(fullname));
+            var name = JSON.parse(localStorage.fullname);
+            var out = "Your name: " + name['first'] + " " + name['last'];
+            document.getElementById("assocArray").innerHTML = out;
+        }
+
+
+        /************************ Object *************************/
+        var book1 = {
+            title: "Elantris",
+            author: "Brandon Sanderson",
+            published: "June 30, 2006",
+            pages: 622
+        };
+
+        localStorage.setItem("book", JSON.stringify(book1));
+        var out = "";
+        var book = JSON.parse(localStorage.book);
+        out += '<p>Title: ' + book.title + '<br> Author: ' + book.author + '<br> Published: ' + book.published + '<br> Pages: ' + book.pages + '</p>';
+
+
+        document.getElementById("object").innerHTML = out;
+    </script>
+</body>
+</html>
