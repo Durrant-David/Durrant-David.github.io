@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Topic 2</title>
+</head>
+
+<body>
+    <h2>Javascript Objects</h2>
+    <p id="book1"></p>
+    <p id="book2"></p>
+    <p id="book3"></p>
+    <p id="book4"></p>
+    <p id="get"></p>
+    <form id="form">
+        <h3>Recipe</h3>
+        <input type="text" name="name" placeholder="Name"><br>
+        <input type="text" name="ingredient" placeholder="ingredient"><br>
+    </form>
+    <button onclick="addIngredient()">Add ingredient</button>
+    <script>
+        /************************ Object creation *************************/
+        function addIngredient() {
+            var ingredient = document.createElement("INPUT");
+            var lineBreak = document.createElement("BR");
+            ingredient.setAttribute("placeholder", "ingredient");
+            document.getElementById('form').appendChild(ingredient);
+            document.getElementById('form').appendChild(lineBreak);
+        }
+        
+    </script>
+</body>
+</html>
