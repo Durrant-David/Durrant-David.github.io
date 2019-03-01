@@ -3,9 +3,7 @@
     <title>Topic 4</title>
 </head>
 <button onclick="getData('books.txt', displayBooks)">load Books</button>
-<button onclick="getData(
-                 'https://salty-tundra-18278.herokuapp.com/index.php/lookup/api'
-                 , displayLookup)">load Lookup</button>
+<button onclick="makeCorsRequest(); return false;">load Lookup</button>
 
 <body>
     <h2>XMLHTTPRequest</h2>
@@ -37,7 +35,7 @@
         // Make the actual CORS request.
         function makeCorsRequest() {
             // This is a sample server that supports CORS.
-            var url = 'http://html5rocks-cors.s3-website-us-east-1.amazonaws.com/index.html';
+            var url = 'https://salty-tundra-18278.herokuapp.com/index.php/lookup/api';
 
             var xhr = createCORSRequest('GET', url);
             if (!xhr) {
@@ -47,9 +45,9 @@
 
             // Response handlers.
             xhr.onload = function() {
-                var text = xhr.responseText;
-                var title = getTitle(text);
-                alert('Response from CORS request to ' + url + ': ' + title);
+                var text = JSON.parse(xhr.responseText);
+                //var title = getTitle(text);
+                alert('Response from CORS request to ' + url);
             };
 
             xhr.onerror = function() {
@@ -58,7 +56,6 @@
 
             xhr.send();
         }
-        console.log(xhr);
 
         function getData(url, callback) {
             var xmlhttp = new XMLHttpRequest();
