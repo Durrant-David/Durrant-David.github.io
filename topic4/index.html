@@ -3,7 +3,7 @@
     <title>Topic 4</title>
 </head>
 <button onclick="getData('books.txt', displayBooks)">load Books</button>
-<button onclick="makeCorsRequest(); return false;">load Lookup</button>
+<button onclick="getData('https://salty-tundra-18278.herokuapp.com/index.php/lookup/api', displayLookup)">load Lookup</button>
 
 <body>
     <h2>XMLHTTPRequest</h2>
@@ -50,21 +50,15 @@
                 alert('Response from CORS request to ' + url);
             };
 
-            xhr.onerror = function() {
-                alert('Woops, there was an error making the request.');
-            };
-
             xhr.send();
         }
 
         function getData(url, callback) {
             var xmlhttp = new XMLHttpRequest();
 
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
+            xmlhttp.onload = function() {
                     var data = JSON.parse(this.responseText);
                     callback(data);
-                }
             };
             xmlhttp.open("GET", url, true);
             xmlhttp.setRequestHeader("Content-Type", "application/json");
