@@ -22,6 +22,7 @@
                 }
             };
             xmlhttp.open("GET", url, true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
             xmlhttp.send();
         }
 
@@ -38,9 +39,9 @@
             console.log(items);
             var out = "";
             var x;
-            for (x in books) {
+            for (x in items) {
                 console.log(items[x]);
-                out += '<p>Title: ' + items[x].title + '<br> Author: ' + items[x].author + '<br> Published: ' + items[x].published + '<br> Pages: ' + items[x].pages + '</p>';
+                out += '<p>Type: ' + items[x].type + ' Level: ' + items[x].levels + ' Catwalk: ' + items[x].catwalk + ' Chairs: ' + items[x].chairs + ' light: ' + items[x].light + ' Status: ' + items[x].status +'</p>';
             }
             document.getElementById("JSON").innerHTML = out;
         }
