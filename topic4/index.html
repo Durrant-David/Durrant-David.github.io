@@ -33,7 +33,7 @@
                 xhr = null;
 
             }
-            xmlhttp.onreadystatechange = function() {
+            xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var data = JSON.parse(this.responseText);
                     displayLookup(data);
