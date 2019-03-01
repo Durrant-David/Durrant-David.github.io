@@ -3,20 +3,25 @@
     <title>Topic 4</title>
 </head>
 <button onclick="getData('books.txt', displayBooks)">load Books</button>
-<button onclick="makeCorsRequest(); return false;">load Lookup</button>
+<button onclick="getData(
+                 'https://salty-tundra-18278.herokuapp.com/index.php/lookup/api'
+                 , displayLookup)">load Lookup</button>
 
 <body>
     <h2>XMLHTTPRequest</h2>
     <p id="JSON"></p>
 
     <script>
+
         function getData(url, callback) {
             var xmlhttp = new XMLHttpRequest();
-            
+
             xmlhttp.open("GET", url, true);
-            xmlhttp.onload = function() {
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
                     var data = JSON.parse(this.responseText);
                     callback(data);
+                }
             };
             xmlhttp.send();
         }
@@ -36,7 +41,7 @@
             var x;
             for (x in items) {
                 console.log(items[x]);
-                out += '<p>Type: ' + items[x].type + ' Level: ' + items[x].level + ' Catwalk: ' + items[x].catwalk + ' Chairs: ' + items[x].chair + ' Number: ' + items[x].number + ' Status: ' + items[x].status + '</p>';
+                out += '<p>Type: ' + items[x].type + ' Level: ' + items[x].level + ' Catwalk: ' + items[x].catwalk + ' Chair: ' + items[x].chair + ' Number: ' + items[x].number + ' Status: ' + items[x].status + '</p>';
             }
             document.getElementById("JSON").innerHTML = out;
         }
