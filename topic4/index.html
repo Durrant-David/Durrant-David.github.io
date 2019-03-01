@@ -3,63 +3,22 @@
     <title>Topic 4</title>
 </head>
 <button onclick="getData('books.txt', displayBooks)">load Books</button>
-<button onclick="getData('https://salty-tundra-18278.herokuapp.com/index.php/lookup/api', displayLookup)">load Lookup</button>
+<button onclick="makeCorsRequest(); return false;">load Lookup</button>
 
 <body>
     <h2>XMLHTTPRequest</h2>
     <p id="JSON"></p>
 
     <script>
-        // Create the XHR object.
-        function createCORSRequest(method, url) {
-            var xhr = new XMLHttpRequest();
-            if ("withCredentials" in xhr) {
-                // XHR for Chrome/Firefox/Opera/Safari.
-                xhr.open(method, url, true);
-            } else if (typeof XDomainRequest != "undefined") {
-                // XDomainRequest for IE.
-                xhr = new XDomainRequest();
-                xhr.open(method, url);
-            } else {
-                // CORS not supported.
-                xhr = null;
-            }
-            return xhr;
-        }
-
-        // Helper method to parse the title tag from the response.
-        function getTitle(text) {
-            return text.match('<title>(.*)?</title>')[1];
-        }
-
-        // Make the actual CORS request.
-        function makeCorsRequest() {
-            // This is a sample server that supports CORS.
-            var url = 'https://salty-tundra-18278.herokuapp.com/index.php/lookup/api';
-
-            var xhr = createCORSRequest('GET', url);
-            if (!xhr) {
-                alert('CORS not supported');
-                return;
-            }
-
-            // Response handlers.
-            xhr.onload = function() {
-                var text = JSON.parse(xhr.responseText);
-                //var title = getTitle(text);
-                alert('Response from CORS request to ' + url);
-            };
-
-            xhr.send();
-        }
-
         function getData(url, callback) {
             var xmlhttp = new XMLHttpRequest();
-
+            
             xmlhttp.open("GET", url, true);
-            xmlhttp.onload = function() {
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
                     var data = JSON.parse(this.responseText);
                     callback(data);
+                }
             };
             xmlhttp.send();
         }
@@ -79,7 +38,7 @@
             var x;
             for (x in items) {
                 console.log(items[x]);
-                out += '<p>Type: ' + items[x].type + ' Level: ' + items[x].levels + ' Catwalk: ' + items[x].catwalk + ' Chairs: ' + items[x].chairs + ' light: ' + items[x].light + ' Status: ' + items[x].status + '</p>';
+                out += '<p>Type: ' + items[x].type + ' Level: ' + items[x].level + ' Catwalk: ' + items[x].catwalk + ' Chairs: ' + items[x].chair + ' Number: ' + items[x].number + ' Status: ' + items[x].status + '</p>';
             }
             document.getElementById("JSON").innerHTML = out;
         }
