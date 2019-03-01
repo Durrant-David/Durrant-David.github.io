@@ -56,13 +56,11 @@
         function getData(url, callback) {
             var xmlhttp = new XMLHttpRequest();
 
+            xmlhttp.open("GET", url, true);
             xmlhttp.onload = function() {
                     var data = JSON.parse(this.responseText);
                     callback(data);
             };
-            xmlhttp.open("GET", url, true);
-            xmlhttp.setRequestHeader("Content-Type", "application/json");
-            xmlhttp.withCredentials = false;
             xmlhttp.send();
         }
 
