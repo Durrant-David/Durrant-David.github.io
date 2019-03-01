@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Topic 2</title>
+    <title>Topic 6</title>
 </head>
 
 <body>
@@ -12,20 +12,55 @@
     <p id="get"></p>
     <form id="form">
         <h3>Recipe</h3>
-        <input type="text" name="name" placeholder="Name"><br>
-        <input type="text" name="ingredient" placeholder="ingredient"><br>
+        <div>
+            <input type="text" name="name" placeholder="Name">
+        </div>
+        <div id="ing">
+            <div>
+                <input type="text" name="ingredient" placeholder="ingredient">
+                <a onclick="addIngredient(this)">+</a>
+                <a onclick="removeIngredient(this)">-</a>
+            </div>
+        </div>
     </form>
-    <button onclick="addIngredient()">Add ingredient</button>
     <script>
-        /************************ Object creation *************************/
-        function addIngredient() {
+        function addIngredient(element) {
+            var seperater = document.createElement("DIV");
             var ingredient = document.createElement("INPUT");
-            var lineBreak = document.createElement("BR");
+            var plus = document.createElement("A");
+            var minus = document.createElement("A");
+            var tSpace = document.createTextNode(" ");
+            var tPlus = document.createTextNode("+");
+            var tMinus = document.createTextNode("-");
+
+            plus.appendChild(tPlus);
+            plus.setAttribute("onclick", "addIngredient(this)");
+            plus.onclick = function() {
+                addIngredient(this);
+            };
+            minus.appendChild(tMinus);
+            minus.setAttribute("onclick", "removeIngredient(this)");
+            minus.onclick = function() {
+                removeIngredient(this);
+            };
+            ingredient.setAttribute("name", "ingredient");
             ingredient.setAttribute("placeholder", "ingredient");
-            document.getElementById('form').appendChild(ingredient);
-            document.getElementById('form').appendChild(lineBreak);
+
+            seperater.appendChild(ingredient);
+            seperater.appendChild(tSpace);
+            seperater.appendChild(plus);
+            seperater.appendChild(tSpace.cloneNode(true));
+            seperater.appendChild(minus);
+            document.getElementById('ing').insertBefore(seperater, element.parentElement.nextSibling);
+
+
         }
-        
+
+        function removeIngredient(element) {
+            if (element.parentElement.parentElement.childElementCount > 1) {
+                document.getElementById('ing').removeChild(element.parentElement);
+            }
+        }
     </script>
 </body>
 </html>
