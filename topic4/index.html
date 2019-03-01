@@ -2,34 +2,47 @@
 <head>
     <title>Topic 4</title>
 </head>
+<button onclick="getData('books.txt', displayBooks)">load Books</button>
+<button onclick="getData(
+                 'http://cchl.atwebpages.com/android_connect/lookup/fetch_all_items.php'
+                 , displayLookup)">load Lookup</button>
 
 <body>
     <h2>XMLHTTPRequest</h2>
     <p id="JSON"></p>
 
     <script>
-        var xmlhttp = new XMLHttpRequest();
-        var url = "books.txt";
+        function getData(url, callback) {
+            var xmlhttp = new XMLHttpRequest();
 
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var books = JSON.parse(this.responseText);
-                displayBooks(books);
-            }
-        };
-        xmlhttp.open("GET", url, true);
-        xmlhttp.send();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    callback(data);
+                }
+            };
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+        }
 
         function displayBooks(books) {
             var out = "";
             var x;
-            for(x in books) {
-                console.log(books[x]);
+            for (x in books) {
                 out += '<p>Title: ' + books[x].title + '<br> Author: ' + books[x].author + '<br> Published: ' + books[x].published + '<br> Pages: ' + books[x].pages + '</p>';
             }
             document.getElementById("JSON").innerHTML = out;
         }
 
+        function displayLookup(items) {
+            var out = "";
+            var x;
+            for (x in books) {
+                console.log(items[x]);
+                out += '<p>Title: ' + items[x].title + '<br> Author: ' + items[x].author + '<br> Published: ' + items[x].published + '<br> Pages: ' + items[x].pages + '</p>';
+            }
+            document.getElementById("JSON").innerHTML = out;
+        }
     </script>
 </body>
 </html>
