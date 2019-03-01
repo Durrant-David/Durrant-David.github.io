@@ -4,7 +4,7 @@
 </head>
 <button onclick="getData('books.txt', displayBooks)">load Books</button>
 <button onclick="getData(
-                 'https://cchl.atwebpages.com/android_connect/lookup/fetch_all_items.php'
+                 'http://cchl.atwebpages.com/android_connect/lookup/fetch_all_items.php'
                  , displayLookup)">load Lookup</button>
 
 <body>
@@ -23,6 +23,7 @@
             };
             xmlhttp.open("GET", url, true);
             xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.withCredentials = false;
             xmlhttp.send();
         }
 
