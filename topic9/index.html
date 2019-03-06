@@ -1,0 +1,123 @@
+<html>
+<head>
+    <link rel="stylesheet" href="../topic8/styles.css">
+    <style>
+        #box {
+            background: grey;
+            width: 100px;
+        }
+
+        @-webkit-keyframes grow {
+            from {
+                width: 100px;
+            }
+
+            to {
+                width: 500px;
+            }
+        }
+
+        @keyframes grow {
+            from {
+                width: 100px;
+            }
+
+            to {
+                width: 500px;
+            }
+        }
+    </style>
+    <title>Topic 9</title>
+</head>
+
+<body onload="loaded()">
+    <h2>Javascript Objects</h2>
+    <button onclick="clickMe();" ondblclick="dblclickMe()">Click me</button>
+    <div id="clicked"></div>
+    <p id="loaded"></p>
+    <p ontouchstart="touchMe()" ontouchend="touchEnd()">Touch me with a touch screen</p>
+    <p id="touched"></p>
+    <div id="box" onclick="clickAnimation()">Click me!</div>
+    <div id="animation"></div>
+
+    <div id="animation2"></div>
+    <div class="dropdown">
+        <button onclick="drpDwn()" class="dropbtn">Dropdown</button>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="#">Link 1</a>
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+        </div>
+    </div>
+    <script>
+        function clickMe() {
+            document.getElementById("clicked").innerHTML = "Clicked";
+        }
+
+        function dblclickMe() {
+            document.getElementById("clicked").innerHTML = "Double Clicked";
+        }
+
+        function loaded(element) {
+            document.getElementById("loaded").innerHTML = "element has finished loading";
+        }
+
+        function touchMe() {
+            document.getElementById("touched").innerHTML = "Touched";
+        }
+
+        function touchEnd() {
+            document.getElementById("touched").innerHTML = "Touch ended";
+        }
+
+        var anima = document.getElementById("box");
+
+        function clickAnimation() {
+            anima.style.WebkitAnimation = "grow 4s 2"; 
+            anima.style.animation = "grow 4s 2";
+        }
+
+        function animationstart() {
+            document.getElementById("animation").innerHTML = "start";
+        }
+
+        function animationiteration() {
+            document.getElementById("animation").innerHTML = "iteration";
+        }
+
+        function animationend() {
+            document.getElementById("animation").innerHTML = "end";
+        }
+
+        anima.addEventListener("webkitAnimationStart", animationstart);
+        anima.addEventListener("webkitAnimationIteration", animationiteration);
+        anima.addEventListener("webkitAnimationEnd", animationend);
+        anima.addEventListener("animationstart", animationstart);
+        anima.addEventListener("animationiteration", animationiteration);
+        anima.addEventListener("animationend", animationend);
+
+        var anima2 = document.getElementById("myDropdown");
+
+        function animation2start() {
+            document.getElementById("animation2").innerHTML = "start";
+        }
+
+        function animation2iteration() {
+            document.getElementById("animation2").innerHTML = "iteration";
+        }
+
+        function animation2end() {
+            document.getElementById("animation2").innerHTML = "end";
+        }
+
+        anima2.addEventListener("webkitAnimationStart", animation2start);
+        anima2.addEventListener("webkitAnimationIteration", animation2iteration);
+        anima2.addEventListener("webkitAnimationEnd", animation2end);
+        anima2.addEventListener("animationstart", animation2start);
+        anima2.addEventListener("animationiteration", animation2iteration);
+        anima2.addEventListener("animationend", animation2end);
+    </script>
+    <script src="../topic8/scripts.js">
+    </script>
+</body>
+</html>
