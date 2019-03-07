@@ -1,0 +1,113 @@
+<html>
+<head>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: relative;
+        }
+
+        @keyframes slide {
+            from {
+                left: 0px;
+            }
+
+            to {
+                left: 800px;
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+                top: 0px;
+                left: 800px;
+            }
+
+            to {
+                transform: rotate(360deg);
+                top: 800px;
+                left: 800px;
+            }
+        }
+
+        @keyframes flip {
+            from {
+                transform: rotateY(0deg);
+                top: 800px;
+                left: 800px;
+            }
+
+            to {
+                transform: rotateY(540deg);
+                top: 800px;
+                left: 0px;
+            }
+        }
+
+        @keyframes rainbow {
+            0% {
+                top: 800px;
+                left: 0px;
+            }
+            
+            17% {
+                background: orange;
+            }
+            
+            34% {
+                background: yellow;
+            }
+            
+            50% {
+                background: green;
+            }
+            
+            67% {
+                background: blue;
+            }
+            
+            84% {
+                background: indigo;
+            }
+
+            100% {
+                background: violet;
+                top: 0px;
+                left: 0px;
+            }
+        }
+    </style>
+    <title>Topic 13</title>
+</head>
+
+<body onload="startSlide()">
+    <h2>CSS Animations</h2>
+    <div id="box"></div>
+<script>
+    var aElement = document.getElementById("box");
+    
+    
+    function startSlide() {
+        aElement.addEventListener("animationend", startSpin);
+        aElement.style.animation = "slide 4s 1";
+    }
+    
+    function startSpin() {
+        aElement.addEventListener("animationend", startFlip);
+        aElement.style.animation = "spin 4s 1";
+    }
+    
+    function startFlip() {
+        aElement.addEventListener("animationend", startRainbow);
+        aElement.style.animation = "flip 4s 1";
+    }
+    
+    function startRainbow() {
+        aElement.style.animation = "rainbow 4s 1";
+    }
+    
+    </script>
+</body>
+</html>
