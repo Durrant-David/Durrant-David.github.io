@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            //            loadFiles("drawPile.html", "drawPile");
+            //            loadFiles("board.html", "board");
+            drawCard("draw1");
+//            drawCard("draw2");
+//            drawCard("draw3");
+            //            placeCard("draw4");
+        });
+
+        function loadFiles(url, element) {
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open("GET", url, true);
+            xmlhttp.onload = function() {
+                document.getElementById(element).innerHTML = this.responseText;
+            };
+            xmlhttp.send();
+        }
+
+        function drawCard(element) {
+            loadFiles("card.html", element);
+            document.getElementById(element).classList.remove("empty");
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("id", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("id");
+            ev.target.appendChild(document.getElementById(data));
+            ev.target.classList.remove("empty");
+            data.classList.add("empty");
+        }
+    </script>
+</head>
+
+    <div id="drawPile">
+        <div class="grid-container">
+            <div id="draw-pile" class="draw-pile">Draw<br>Pile</div>
+            <div id="draw1" class="empty"></div>
+            <div id="draw2" class="empty"></div>
+            <div id="draw3" class="empty"></div>
+            <div id="draw4" class="empty"></div>
+
+            <div class="blank"></div>
+            <div class="blank">6</div>
+            <div class="blank">4</div>
+            <div class="blank">2</div>
+            <div class="blank">1</div>
+        </div>
+    </div>
+    <div id="board">
+        <div class="grid-container">
+            <div class="00 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="01 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="02 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="03 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="04 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="10 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="11 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="12 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="13 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="14 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="20 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="21 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="22 center">City Square<br>
+                <font size="10">1</font>
+            </div>
+            <div class="23 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="24 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="30 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="31 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="32 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="33 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="34 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="40 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="41 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="42 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="43 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="44 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+    </div>
+
+</body></html>
