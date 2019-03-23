@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -7,20 +8,126 @@
         document.addEventListener("DOMContentLoaded", function() {
             //            loadFiles("drawPile.html", "drawPile");
             //            loadFiles("board.html", "board");
-            drawCard("draw1");
-//            drawCard("draw2");
-//            drawCard("draw3");
+            loadFiles("https://salty-tundra-18278.herokuapp.com/cityCouncil/api.php", buildDeck);
+            //            drawCard("draw2");
+            //            drawCard("draw3");
             //            placeCard("draw4");
         });
 
-        function loadFiles(url, element) {
+        function loadFiles(url, callback) {
             var xmlhttp = new XMLHttpRequest();
+            var arg = arguments[2];
 
             xmlhttp.open("GET", url, true);
             xmlhttp.onload = function() {
-                document.getElementById(element).innerHTML = this.responseText;
+                var data = this.responseText;
+                callback(data, arg);
+                //                document.getElementById(element).innerHTML = this.responseText;
             };
             xmlhttp.send();
+        }
+
+        function makeCard(id) {
+            var cards = JSON.parse(localStorage.cards);
+            var element = document.getElementById(cards[id].location);
+            var container = document.createElement("DIV");
+            container.setAttribute("id", id);
+            container.setAttribute("class", "grid-card");
+            container.setAttribute("onclick", "selected(this)");
+            var corner = document.createElement("DIV");
+            corner.setAttribute("class", "card-corner");
+            
+            var top = document.createElement("DIV");
+            top.setAttribute("class", "card-vertical");
+            if (cards[id].bonus[0] == "+" || cards[id].bonus[0] == "-") {
+                top.innerHTML = cards[id].bonus[0];
+            } else {
+                top.style.backgroundColor = cards[id].bonus[0];
+            }
+
+            var bottom = document.createElement("DIV");
+            bottom.setAttribute("class", "card-vertical");
+            if (cards[id].bonus[1] == "+" || cards[id].bonus[1] == "-") {
+                bottom.innerHTML = cards[id].bonus[1];
+            } else {
+                bottom.style.backgroundColor = cards[id].bonus[1];
+            }
+            
+            var left = document.createElement("DIV");
+            left.setAttribute("class", "card-horizontal");
+            if (cards[id].bonus[2] == "+" || cards[id].bonus[2] == "-") {
+                left.innerHTML = cards[id].bonus[2];
+            } else {
+                left.style.backgroundColor = cards[id].bonus[2];
+            }
+            
+            var right = document.createElement("DIV");
+            right.setAttribute("class", "card-horizontal");
+            if (cards[id].bonus[3] == "+" || cards[id].bonus[3] == "-") {
+                right.innerHTML = cards[id].bonus[3];
+            } else {
+                right.style.backgroundColor = cards[id].bonus[3];
+            }
+            
+            var center = document.createElement("DIV");
+            center.setAttribute("class", "card-center");
+            center.style.backgroundColor = cards[id].basecolor;
+            center.innerHTML = cards[id].name + "<br>" + cards[id].basenum;
+
+            container.appendChild(corner);
+            container.appendChild(top);
+            container.appendChild(corner.cloneNode(true));
+            container.appendChild(left);
+            container.appendChild(center);
+            container.appendChild(right);
+            container.appendChild(corner.cloneNode(true));
+            container.appendChild(bottom);
+            container.appendChild(corner.cloneNode(true));
+
+            element.appendChild(container);
+            element.classList.remove("empty");
+        }
+
+        function buildDeck(data, callback) {
+            var cards = JSON.parse(data);
+            localStorage.setItem("cards", JSON.stringify(cards.cards));
+            //            var drawPile [];
+            var i = 0;
+            while (i < 4) {
+                num = Math.floor(Math.random() * 30);
+                if (lookInDeck(num) == true) {
+                    setCards(num, "draw" + i);
+                    i++;
+                }
+            }
+            loadCards();
+        }
+
+        function setCards(id, location) {
+            var cards = JSON.parse(localStorage.cards);
+            cards[id].location = location;
+            localStorage.setItem("cards", JSON.stringify(cards));
+            console.log(JSON.parse(localStorage.cards));
+        }
+
+        function lookInDeck(id) {
+            var cards = JSON.parse(localStorage.cards);
+            if (cards[id].location == "deck") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function loadCards() {
+            var cards = JSON.parse(localStorage.cards);
+            for (var i = 0; i < 30; i++) {
+                if (cards[i].location != "deck") {
+                    //                    var element = document.getElementById(cards[i].location);
+                    makeCard(i);
+                    //                    loadFiles("card.html", makeCard, i);
+                }
+            }
         }
 
         function drawCard(element) {
@@ -43,16 +150,39 @@
             ev.target.classList.remove("empty");
             data.classList.add("empty");
         }
+        
+        function dropCard(element) {
+            var card = localStorage.selected;
+            console.log(card);
+            element.appendChild(document.getElementById(card));
+            element.classList.remove("empty");
+            selected(document.getElementById(card));
+        }
+
+        function selected(element) {
+            if (element.classList.contains("selected")) {
+                element.classList.remove("selected");
+            } else {
+                element.classList.add("selected");
+                localStorage.setItem("selected", element.getAttribute("id"));
+            }
+        }
+
+        function myFunction() {
+            document.getElementById("demo").innerHTML = "Hello World";
+        }
     </script>
 </head>
 
+<body>
+    <p id="demo"></p>
     <div id="drawPile">
         <div class="grid-container">
             <div id="draw-pile" class="draw-pile">Draw<br>Pile</div>
+            <div id="draw0" class="empty"></div>
             <div id="draw1" class="empty"></div>
             <div id="draw2" class="empty"></div>
             <div id="draw3" class="empty"></div>
-            <div id="draw4" class="empty"></div>
 
             <div class="blank"></div>
             <div class="blank">6</div>
@@ -63,33 +193,33 @@
     </div>
     <div id="board">
         <div class="grid-container">
-            <div class="00 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="01 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="02 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="03 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="04 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="10 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="11 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="12 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="13 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="14 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="20 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="21 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="00 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="01 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="02 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="03 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="04 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="10 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="11 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="12 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="13 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="14 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="20 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="21 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
             <div class="22 center">City Square<br>
                 <font size="10">1</font>
             </div>
-            <div class="23 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="24 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="30 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="31 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="32 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="33 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="34 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="40 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="41 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="42 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="43 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div class="44 empty" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div class="23 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="24 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="30 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="31 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="32 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="33 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="34 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="40 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="41 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="42 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="43 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div class="44 empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
         </div>
     </div>
 

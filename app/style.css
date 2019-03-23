@@ -1,14 +1,3 @@
-/*
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto auto auto;
-    grid-gap: 10px;
-    padding: 10px;
-}
-*/
-
-/*.grid-container > div {}*/
-
 .draw-pile {
     background-color: darkgray;
     font-size: 300%;
@@ -21,90 +10,44 @@
     text-align: center;
 }
 
-/*
-.empty {
-    text-align: center;
-    padding: 90px 60px;
-}
-*/
-/*
-.card {
-    width: 100%;
-}
-*/
-
 .grid-card {
     display: grid;
     grid-template-columns: 20% minmax(0, 1fr) 20%;
-    grid-template-rows: 20% minmax(0, 180px) 20%;
+    grid-template-rows: 20% minmax(0, 100%) 20%;
     background-color: white;
+}
+
+.grid-card > div {
+    /*    width: 100%;*/
 }
 
 .card-corner {
     background-color: black;
-/*    width: 100%;*/
-/*    height: 100%;*/
 }
 
 .card-center {
-/*    padding: 30px 10px;*/
-/*    width: 100%;*/
-/*    height: 50px;*/
+    font-size: 200%;
+    padding: 10px 0;
+    text-align: center;
 }
 
 .card-horizontal {
-/*    width: 100%;*/
-/*    height: 100%;*/
+    border-left-style: solid;
+    border-right-style: solid;
+    font-size: 3em;
+    font-weight: bold;
+    padding: 50px 0;
+    text-align: center;
 }
 
 .card-vertical {
-/*    width: 100%;*/
-/*    height: 40px;*/
-}
-
-
-
-#div1, #div2 {
-  float: left;
-  width: 100px;
-  height: 35px;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid black;
-}
-/*
-.card-slot {
-    background-color: rgba(255, 255, 255, 0.8);
-        padding: 0 50px;
-    width: 100%;
-    font-size: 300%;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    font-size: 3em;
+    font-weight: bold;
+/*    padding: 0 0 5px 0;*/
     text-align: center;
 }
-*/
-
-/*
-.blackCorners {
-    background-color: black;
-    width: 20%;
-    height: 20%;
-}
-*/
-
-/*
-.sideVertical {
-    width: 60%;
-    height: 30px;
-    text-align: center;
-}
-*/
-
-/*
-.sideHorizontal {
-    width: 50px;
-    height: 120px;
-    text-align: center;
-}
-*/
 
 .card-center {
     text-align: center;
@@ -135,4 +78,8 @@
     background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
     padding: 90px 90px;
+}
+
+.selected {
+    box-shadow: 0px 0px 5px red;
 }
