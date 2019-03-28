@@ -5,219 +5,219 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-//        document.addEventListener("DOMContentLoaded", function() {
-//            //players(2);
-//        });
-//
-//        function loadFiles(url, callback) {
-//            var xmlhttp = new XMLHttpRequest();
-//            var arg = arguments[2];
-//
-//            xmlhttp.open("GET", url, true);
-//            xmlhttp.onload = function() {
-//                var data = this.responseText;
-//                callback(data, arg);
-//            };
-//            xmlhttp.send();
-//        }
-//
-//        function players(num) {
-//            loadFiles("https://salty-tundra-18278.herokuapp.com/cityCouncil/api.php", buildDeck);
-//            console.log(JSON.parse(localStorage.cards));
-//            drawCard("draw0", "deck");
-//            drawCard("draw1", "deck");
-//            drawCard("draw2", "deck");
-//            drawCard("draw3", "deck");
-//            startBoard(num);
-//            console.log(localStorage.cards);
-//            loadCards();
-//            var i = 0;
-//            while (i < (25 - num)) {
-//                i++;
-//            }
-//        }
-//
-//        function startBoard(players) {
-//            //            console.log(localStorage.cards);
-//            switch (players) {
-//                case 4:
-//                    cardId = drawCard("b32", "start");
-//                case 3:
-//                    cardId = drawCard("b12", "start");
-//                    rotateCard(cardId, 2);
-//                default:
-//                    cardId = drawCard("b23", "start");
-//                    rotateCard(cardId, 1);
-//                    cardId = drawCard("b21", "start");
-//                    rotateCard(cardId, 2);
-//
-//            }
-//        }
-//
-//        function makeCard(id) {
-//            var cards = JSON.parse(localStorage.cards);
-//            var element = document.getElementById(cards[id].location);
-//            var container = document.createElement("DIV");
-//            container.setAttribute("id", id);
-//            container.setAttribute("class", "grid-card");
-//            container.setAttribute("onclick", "selected(this)");
-//            var corner = document.createElement("DIV");
-//            corner.setAttribute("class", "card-corner");
-//
-//            var bottom = document.createElement("DIV");
-//            var left = document.createElement("DIV");
-//            var right = document.createElement("DIV");
-//            var bonus = parseInt(cards[id].top);
-//            var sides = [];
-//            for (var i = 0; i < 4; i++) {
-//                sides[i] = cards[id].bonus[bonus]
-//
-//                if (bonus == 3) {
-//                    bonus = 0;
-//                } else {
-//                    bonus++;
-//                }
-//            }
-//
-//            var top = document.createElement("DIV");
-//            top.setAttribute("class", "card-vertical");
-//            if (sides[0] == "+" || sides[0] == "-") {
-//                top.innerHTML = sides[0];
-//            } else {
-//                top.style.backgroundColor = sides[0];
-//            }
-//
-//            var bottom = document.createElement("DIV");
-//            bottom.setAttribute("class", "card-vertical");
-//            if (sides[1] == "+" || sides[1] == "-") {
-//                bottom.innerHTML = sides[1];
-//            } else {
-//                bottom.style.backgroundColor = sides[1];
-//            }
-//
-//            var left = document.createElement("DIV");
-//            left.setAttribute("class", "card-horizontal");
-//            if (sides[2] == "+" || sides[2] == "-") {
-//                left.innerHTML = sides[2];
-//            } else {
-//                left.style.backgroundColor = sides[2];
-//            }
-//
-//            var right = document.createElement("DIV");
-//            right.setAttribute("class", "card-horizontal");
-//            if (sides[3] == "+" || sides[3] == "-") {
-//                right.innerHTML = sides[3];
-//            } else {
-//                right.style.backgroundColor = sides[3];
-//            }
-//
-//            var center = document.createElement("DIV");
-//            center.setAttribute("class", "card-center");
-//            center.style.backgroundColor = cards[id].basecolor;
-//            center.innerHTML = cards[id].name + "<br>" + cards[id].basenum;
-//
-//            container.appendChild(corner);
-//            container.appendChild(top);
-//            container.appendChild(corner.cloneNode(true));
-//            container.appendChild(left);
-//            container.appendChild(center);
-//            container.appendChild(right);
-//            container.appendChild(corner.cloneNode(true));
-//            container.appendChild(bottom);
-//            container.appendChild(corner.cloneNode(true));
-//
-//            element.appendChild(container);
-//            element.classList.remove("empty");
-//        }
-//
-//        function buildDeck(data, callback) {
-//            var cards = JSON.parse(data);
-//            localStorage.setItem("cards", JSON.stringify(cards.cards));
-//        }
-//
-//        function drawCard(location, from) {
-//            var i = 0;
-//            while (i < 1) {
-//                num = Math.floor(Math.random() * 30);
-//                if (lookInDeck(num, from) == true) {
-//                    setCard(num, location);
-//                    return (num);
-//                }
-//            }
-//        }
-//
-//        function setCard(id, location) {
-//            var cards = JSON.parse(localStorage.cards);
-//            cards[id].location = location;
-//            localStorage.setItem("cards", JSON.stringify(cards));
-//        }
-//
-//        function rotateCard(id, top = null) {
-//            var cards = JSON.parse(localStorage.cards);
-//            cardTop = cards[id].top;
-//            if (top == null) {
-//                if (cardTop > 3) {
-//                    cards[id].top = "0";
-//                } else {
-//                    cardTop++;
-//                    cards[id].top = String(cardTop);
-//                }
-//            } else {
-//                cards[id].top = String(top);
-//            }
-//            localStorage.setItem("cards", JSON.stringify(cards));
-//        }
-//
-//        function lookInDeck(id, from) {
-//            var cards = JSON.parse(localStorage.cards);
-//            if (cards[id].location == from) {
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        }
-//
-//        function loadCards() {
-//            var cards = JSON.parse(localStorage.cards);
-//            for (var i = 0; i < 30; i++) {
-//                if (cards[i].location != "deck" && cards[i].location != "start") {
-//                    makeCard(i);
-//                }
-//            }
-//        }
-//
-//        function allowDrop(ev) {
-//            ev.preventDefault();
-//        }
-//
-//        function drag(ev) {
-//            ev.dataTransfer.setData("id", ev.target.id);
-//        }
-//
-//        function drop(ev) {
-//            ev.preventDefault();
-//            var data = ev.dataTransfer.getData("id");
-//            ev.target.appendChild(document.getElementById(data));
-//            ev.target.classList.remove("empty");
-//            data.classList.add("empty");
-//        }
-//
-//        function dropCard(element) {
-//            var card = localStorage.selected;
-//            console.log(card);
-//            element.appendChild(document.getElementById(card));
-//            element.classList.remove("empty");
-//            selected(document.getElementById(card));
-//        }
-//
-//        function selected(element) {
-//            if (element.classList.contains("selected")) {
-//                element.classList.remove("selected");
-//            } else {
-//                element.classList.add("selected");
-//                localStorage.setItem("selected", element.getAttribute("id"));
-//            }
-//        }
+        document.addEventListener("DOMContentLoaded", function() {
+            //players(2);
+        });
+
+        function loadFiles(url, callback) {
+            var xmlhttp = new XMLHttpRequest();
+            var arg = arguments[2];
+
+            xmlhttp.open("GET", url, true);
+            xmlhttp.onload = function() {
+                var data = this.responseText;
+                callback(data, arg);
+            };
+            xmlhttp.send();
+        }
+
+        function players(num) {
+            loadFiles("https://salty-tundra-18278.herokuapp.com/cityCouncil/api.php", buildDeck);
+            console.log(JSON.parse(localStorage.cards));
+            drawCard("draw0", "deck");
+            drawCard("draw1", "deck");
+            drawCard("draw2", "deck");
+            drawCard("draw3", "deck");
+            startBoard(num);
+            console.log(localStorage.cards);
+            loadCards();
+            var i = 0;
+            while (i < (25 - num)) {
+                i++;
+            }
+        }
+
+        function startBoard(players) {
+            //            console.log(localStorage.cards);
+            switch (players) {
+                case 4:
+                    cardId = drawCard("b32", "start");
+                case 3:
+                    cardId = drawCard("b12", "start");
+                    rotateCard(cardId, 2);
+                default:
+                    cardId = drawCard("b23", "start");
+                    rotateCard(cardId, 1);
+                    cardId = drawCard("b21", "start");
+                    rotateCard(cardId, 2);
+
+            }
+        }
+
+        function makeCard(id) {
+            var cards = JSON.parse(localStorage.cards);
+            var element = document.getElementById(cards[id].location);
+            var container = document.createElement("DIV");
+            container.setAttribute("id", id);
+            container.setAttribute("class", "grid-card");
+            container.setAttribute("onclick", "selected(this)");
+            var corner = document.createElement("DIV");
+            corner.setAttribute("class", "card-corner");
+
+            var bottom = document.createElement("DIV");
+            var left = document.createElement("DIV");
+            var right = document.createElement("DIV");
+            var bonus = parseInt(cards[id].top);
+            var sides = [];
+            for (var i = 0; i < 4; i++) {
+                sides[i] = cards[id].bonus[bonus]
+
+                if (bonus == 3) {
+                    bonus = 0;
+                } else {
+                    bonus++;
+                }
+            }
+
+            var top = document.createElement("DIV");
+            top.setAttribute("class", "card-vertical");
+            if (sides[0] == "+" || sides[0] == "-") {
+                top.innerHTML = sides[0];
+            } else {
+                top.style.backgroundColor = sides[0];
+            }
+
+            var bottom = document.createElement("DIV");
+            bottom.setAttribute("class", "card-vertical");
+            if (sides[1] == "+" || sides[1] == "-") {
+                bottom.innerHTML = sides[1];
+            } else {
+                bottom.style.backgroundColor = sides[1];
+            }
+
+            var left = document.createElement("DIV");
+            left.setAttribute("class", "card-horizontal");
+            if (sides[2] == "+" || sides[2] == "-") {
+                left.innerHTML = sides[2];
+            } else {
+                left.style.backgroundColor = sides[2];
+            }
+
+            var right = document.createElement("DIV");
+            right.setAttribute("class", "card-horizontal");
+            if (sides[3] == "+" || sides[3] == "-") {
+                right.innerHTML = sides[3];
+            } else {
+                right.style.backgroundColor = sides[3];
+            }
+
+            var center = document.createElement("DIV");
+            center.setAttribute("class", "card-center");
+            center.style.backgroundColor = cards[id].basecolor;
+            center.innerHTML = cards[id].name + "<br>" + cards[id].basenum;
+
+            container.appendChild(corner);
+            container.appendChild(top);
+            container.appendChild(corner.cloneNode(true));
+            container.appendChild(left);
+            container.appendChild(center);
+            container.appendChild(right);
+            container.appendChild(corner.cloneNode(true));
+            container.appendChild(bottom);
+            container.appendChild(corner.cloneNode(true));
+
+            element.appendChild(container);
+            element.classList.remove("empty");
+        }
+
+        function buildDeck(data, callback) {
+            var cards = JSON.parse(data);
+            localStorage.setItem("cards", JSON.stringify(cards.cards));
+        }
+
+        function drawCard(location, from) {
+            var i = 0;
+            while (i < 1) {
+                num = Math.floor(Math.random() * 30);
+                if (lookInDeck(num, from) == true) {
+                    setCard(num, location);
+                    return (num);
+                }
+            }
+        }
+
+        function setCard(id, location) {
+            var cards = JSON.parse(localStorage.cards);
+            cards[id].location = location;
+            localStorage.setItem("cards", JSON.stringify(cards));
+        }
+
+        function rotateCard(id, top = null) {
+            var cards = JSON.parse(localStorage.cards);
+            cardTop = cards[id].top;
+            if (top == null) {
+                if (cardTop > 3) {
+                    cards[id].top = "0";
+                } else {
+                    cardTop++;
+                    cards[id].top = String(cardTop);
+                }
+            } else {
+                cards[id].top = String(top);
+            }
+            localStorage.setItem("cards", JSON.stringify(cards));
+        }
+
+        function lookInDeck(id, from) {
+            var cards = JSON.parse(localStorage.cards);
+            if (cards[id].location == from) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function loadCards() {
+            var cards = JSON.parse(localStorage.cards);
+            for (var i = 0; i < 30; i++) {
+                if (cards[i].location != "deck" && cards[i].location != "start") {
+                    makeCard(i);
+                }
+            }
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("id", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("id");
+            ev.target.appendChild(document.getElementById(data));
+            ev.target.classList.remove("empty");
+            data.classList.add("empty");
+        }
+
+        function dropCard(element) {
+            var card = localStorage.selected;
+            console.log(card);
+            element.appendChild(document.getElementById(card));
+            element.classList.remove("empty");
+            selected(document.getElementById(card));
+        }
+
+        function selected(element) {
+            if (element.classList.contains("selected")) {
+                element.classList.remove("selected");
+            } else {
+                element.classList.add("selected");
+                localStorage.setItem("selected", element.getAttribute("id"));
+            }
+        }
 
     </script>
 </head>
