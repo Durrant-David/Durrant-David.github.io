@@ -8,7 +8,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             //            loadFiles("drawPile.html", "drawPile");
             //            loadFiles("board.html", "board");
-            players(2);
+            //players(2);
             //            loadFiles("https://salty-tundra-18278.herokuapp.com/cityCouncil/api.php", buildDeck);
             //            drawCard("draw2");
             //            drawCard("draw3");
@@ -36,7 +36,7 @@
             drawCard("draw2", "deck");
             drawCard("draw3", "deck");
             startBoard(num);
-            console.log(JSON.parse(localStorage.cards));
+            console.log(localStorage.cards);
             loadCards();
             var i = 0;
             while (i < (25 - num)) {
