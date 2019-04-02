@@ -6,24 +6,31 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            players(2);
+            loadFiles("https://salty-tundra-18278.herokuapp.com/cityCouncil/api.php", buildDeck);
         });
 
         function loadFiles(url, callback) {
             var xmlhttp = new XMLHttpRequest();
-            var arg = arguments[2];
 
             xmlhttp.open("GET", url, true);
             xmlhttp.onload = function() {
                 var data = this.responseText;
-                callback(data, arg);
+                callback(data);
             };
             xmlhttp.send();
         }
 
+        function buildDeck(data) {
+            var cards = JSON.parse(data);
+            if (localStorage.getItem("cards") === null) {
+                localStorage.setItem("cards", JSON.stringify(cards.cards));
+            } else {
+//                localStorage.setItem("cards", JSON.stringify(cards.cards));
+            }
+            players(2);
+        }
+        
         function players(num) {
-            loadFiles("https://salty-tundra-18278.herokuapp.com/cityCouncil/api.php", buildDeck);
-            console.log(JSON.parse(localStorage.cards));
             drawCard("draw0", "deck");
             drawCard("draw1", "deck");
             drawCard("draw2", "deck");
@@ -129,10 +136,6 @@
             element.classList.remove("empty");
         }
 
-        function buildDeck(data, callback) {
-            var cards = JSON.parse(data);
-            localStorage.setItem("cards", JSON.stringify(cards.cards));
-        }
 
         function drawCard(location, from) {
             var i = 0;
@@ -217,7 +220,6 @@
                 localStorage.setItem("selected", element.getAttribute("id"));
             }
         }
-
     </script>
 </head>
 
@@ -270,6 +272,4 @@
         </div>
     </div>
 
-</body>
-
-</html>
+</body></html>
