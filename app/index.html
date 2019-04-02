@@ -5,6 +5,9 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
+        var selectable = false;
+        var players = 2;
+
         document.addEventListener("DOMContentLoaded", function() {
             loadFiles("https://salty-tundra-18278.herokuapp.com/cityCouncil/api.php", buildDeck);
         });
@@ -24,27 +27,37 @@
             var cards = JSON.parse(data);
             if (localStorage.getItem("cards") === null) {
                 localStorage.setItem("cards", JSON.stringify(cards.cards));
-            } else {
-//                localStorage.setItem("cards", JSON.stringify(cards.cards));
+                localStorage.setItem("turns", "0");
+                startBoard();
             }
-            players(2);
+            getTurn();
         }
-        
-        function players(num) {
+
+        function getTurn() {
+            loadCards();
+            var turns = Number(localStorage.turns);
+            if (turns < (25 - players)) {
+                localStorage.turns = ++turns;
+                selectable = true;
+            }
+        }
+
+        function drawCard(location, from) {
+            var i = 0;
+            while (i < 1) {
+                num = Math.floor(Math.random() * 30);
+                if (checkCardLocation(num, from) == true) {
+                    setCard(num, location);
+                    return (num);
+                }
+            }
+        }
+
+        function startBoard() {
             drawCard("draw0", "deck");
             drawCard("draw1", "deck");
             drawCard("draw2", "deck");
             drawCard("draw3", "deck");
-            startBoard(num);
-            console.log(localStorage.cards);
-            loadCards();
-            var i = 0;
-            while (i < (25 - num)) {
-                i++;
-            }
-        }
-
-        function startBoard(players) {
             switch (players) {
                 case 4:
                     cardId = drawCard("b32", "start");
@@ -57,6 +70,120 @@
                     cardId = drawCard("b21", "start");
                     rotateCard(cardId, 2);
 
+            }
+        }
+
+        function setCard(id, location) {
+            var cards = JSON.parse(localStorage.cards);
+            cards[id].location = location;
+            localStorage.setItem("cards", JSON.stringify(cards));
+        }
+
+        function rotateCard(id, top = null) {
+            var cards = JSON.parse(localStorage.cards);
+            cardTop = cards[id].top;
+            if (top == null) {
+                if (cardTop > 3) {
+                    cards[id].top = "0";
+                } else {
+                    cardTop++;
+                    cards[id].top = String(cardTop);
+                }
+            } else {
+                cards[id].top = String(top);
+            }
+            localStorage.setItem("cards", JSON.stringify(cards));
+        }
+
+        function checkCardLocation(id, from) {
+            var cards = JSON.parse(localStorage.cards);
+            if (cards[id].location == from) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function getCardInLocation(from) {
+            var cards = JSON.parse(localStorage.cards);
+            for (var i = 0; i < cards.length; i++) {
+                if (cards[i].location == from) {
+                    return cards[i].id;
+                } else {
+                    return 0;
+                }
+            }
+        }
+
+        function loadCards() {
+            var cards = JSON.parse(localStorage.cards);
+            for (var i = 0; i < cards.length; i++) {
+                if (cards[i].location != "deck" && cards[i].location != "start") {
+                    makeCard(i);
+                }
+            }
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("id", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("id");
+            ev.target.appendChild(document.getElementById(data));
+            ev.target.classList.remove("empty");
+            data.classList.add("empty");
+            
+        }
+
+        function dropCard(element) {
+            var card = localStorage.selected;
+            console.log(card);
+            element.appendChild(document.getElementById(card));
+            element.classList.remove("empty");
+            selected(document.getElementById(card));
+            
+            var btnContainer = document.createElement("DIV");
+            var confirm = document.createElement("BUTTON");
+            var rotate = document.createElement("BUTTON");
+            var cancel = document.createElement("BUTTON");
+            btnContainer.append(confirm);
+            btnContainer.append(rotate);
+            btnContainer.append(cancel);
+            element.appendChild(btnContainer);
+        }
+
+        function selected(element) {
+            if (selectable) {
+                var turn = Number(localStorage.turns);
+                var color;
+                switch (turn % players) {
+                    case 1:
+                        color = "red";
+                        break;
+                    case 2:
+                        color = "green";
+                        break;
+                    case 3:
+                        color = "blue";
+                        break;
+                    case 4:
+                        color = "yellow";
+                        break;
+                } 
+                
+                if (element.classList.contains("selected")) {
+                    element.classList.remove("selected");
+                } else {
+                    element.classList.add("selected");
+                    element.style["boxShadow"] = "0px 0px 20px red";
+                    localStorage.setItem("selected", element.getAttribute("id"));
+                }
             }
         }
 
@@ -134,91 +261,6 @@
 
             element.appendChild(container);
             element.classList.remove("empty");
-        }
-
-
-        function drawCard(location, from) {
-            var i = 0;
-            while (i < 1) {
-                num = Math.floor(Math.random() * 30);
-                if (lookInDeck(num, from) == true) {
-                    setCard(num, location);
-                    return (num);
-                }
-            }
-        }
-
-        function setCard(id, location) {
-            var cards = JSON.parse(localStorage.cards);
-            cards[id].location = location;
-            localStorage.setItem("cards", JSON.stringify(cards));
-        }
-
-        function rotateCard(id, top = null) {
-            var cards = JSON.parse(localStorage.cards);
-            cardTop = cards[id].top;
-            if (top == null) {
-                if (cardTop > 3) {
-                    cards[id].top = "0";
-                } else {
-                    cardTop++;
-                    cards[id].top = String(cardTop);
-                }
-            } else {
-                cards[id].top = String(top);
-            }
-            localStorage.setItem("cards", JSON.stringify(cards));
-        }
-
-        function lookInDeck(id, from) {
-            var cards = JSON.parse(localStorage.cards);
-            if (cards[id].location == from) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        function loadCards() {
-            var cards = JSON.parse(localStorage.cards);
-            for (var i = 0; i < 30; i++) {
-                if (cards[i].location != "deck" && cards[i].location != "start") {
-                    makeCard(i);
-                }
-            }
-        }
-
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("id", ev.target.id);
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("id");
-            ev.target.appendChild(document.getElementById(data));
-            ev.target.classList.remove("empty");
-            data.classList.add("empty");
-        }
-
-        function dropCard(element) {
-            var card = localStorage.selected;
-            console.log(card);
-            element.appendChild(document.getElementById(card));
-            element.classList.remove("empty");
-            selected(document.getElementById(card));
-        }
-
-        function selected(element) {
-            if (element.classList.contains("selected")) {
-                element.classList.remove("selected");
-            } else {
-                element.classList.add("selected");
-                localStorage.setItem("selected", element.getAttribute("id"));
-            }
         }
     </script>
 </head>
