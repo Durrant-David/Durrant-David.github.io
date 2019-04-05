@@ -193,6 +193,7 @@
             location.removeChild(location.lastChild);
             location.firstChild.style.removeProperty("box-shadow");
             localStorage.setItem("cards", JSON.stringify(cards));
+            localStorage.selected = 0;
             checkDrawPile();
             getTurn();
             //            var element = document.getElementById(cards[id].location);
