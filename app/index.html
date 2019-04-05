@@ -6,13 +6,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         var selectable = false;
-        var players = 2;
+        var players = 4;
 
         document.addEventListener("DOMContentLoaded", function() {
+            console.log("Load content");
+            for (var i = 0; i < 5; i++) {
+                for (var j = 0; j < 5; j++) {
+                    const id = "b" + i + j;
+                    const element = document.getElementById(id);
+                    element.addEventListener("click", allowDrop, true);
+                    console.log("id = " + id);
+                    console.log("element.id = " + element.id);
+                }
+            }
             loadFiles("https://salty-tundra-18278.herokuapp.com/cityCouncil/api.php", buildDeck);
         });
 
         function loadFiles(url, callback) {
+            console.log("loadFiles(url = " + url + " callback = " + callback + ")");
             var xmlhttp = new XMLHttpRequest();
 
             xmlhttp.open("GET", url, true);
@@ -24,6 +35,7 @@
         }
 
         function buildDeck(data) {
+            console.log("buildDeck(data = " + data + ")");
             var cards = JSON.parse(data);
             if (localStorage.getItem("cards") === null) {
                 localStorage.setItem("cards", JSON.stringify(cards.cards));
@@ -34,6 +46,7 @@
         }
 
         function getTurn() {
+            console.log("getTurn()");
             loadCards();
             var turns = Number(localStorage.turns);
             if (turns < (25 - players)) {
@@ -43,6 +56,7 @@
         }
 
         function drawCard(location, from) {
+            console.log("drawCard(location = " + location + " from = " + from + ")");
             var i = 0;
             while (i < 1) {
                 num = Math.floor(Math.random() * 30);
@@ -54,6 +68,7 @@
         }
 
         function startBoard() {
+            console.log("startBoard()");
             drawCard("draw0", "deck");
             drawCard("draw1", "deck");
             drawCard("draw2", "deck");
@@ -74,12 +89,14 @@
         }
 
         function setCard(id, location) {
+            console.log("setCard(id = " + id + " location = " + location + ")");
             var cards = JSON.parse(localStorage.cards);
             cards[id].location = location;
             localStorage.setItem("cards", JSON.stringify(cards));
         }
 
         function rotateCard(id, top = null) {
+            console.log("rotateCard(id = " + id + "top = " + top + ")");
             var cards = JSON.parse(localStorage.cards);
             cardTop = Number(cards[id].top);
             console.log(cardTop);
@@ -98,13 +115,53 @@
             //in game rotation
             if (top == null) {
                 var location = document.getElementById(id).parentNode.id;
-                console.log(location);
+                console.log("location of rotating card: " + location);
                 reloadBonusSides(id);
-//                makeCard(id, location);
+                //                makeCard(id, location);
             }
         }
 
+        function cancelLocation(id) {
+            console.log("cancelLocation(id = " + id + ")");
+            console.log("selectable = " + selectable);
+            var cards = JSON.parse(localStorage.cards);
+            var element = document.getElementById(cards[id].location);
+            var parent = document.getElementById(id).parentNode.id;
+            console.log(element);
+            dropCard(element, id);
+            element.firstChild.style.removeProperty("box-shadow");
+            document.getElementById(parent).innerHTML = "";
+            document.getElementById(parent).classList.add("empty");
+            selectable = true;
+            console.log(document.getElementById(parent).id);
+            //            document.getElementById(parent).addEventListener("click", allowDrop);
+            console.log("selectable = " + selectable);
+        }
+
+        function confirmLocation(id) {
+            console.log("confirmLocation(id = " + id + ")");
+            console.log("selectable = " + selectable);
+            var cards = JSON.parse(localStorage.cards);
+            var location = document.getElementById(id).parentNode;
+            cards[id].location = location.id;
+            location.removeChild(location.lastChild);
+            location.firstChild.style.removeProperty("box-shadow");
+            localStorage.setItem("cards", JSON.stringify(cards));
+
+            //            var element = document.getElementById(cards[id].location);
+            //            var parent = document.getElementById(id).parentNode.id;
+            //            console.log(element);
+            //            dropCard(element, id);
+            //            element.firstChild.style.removeProperty("box-shadow");
+            //            document.getElementById(parent).innerHTML = "";
+            //            document.getElementById(parent).classList.add("empty");
+            //            selectable = true;
+            //            console.log(document.getElementById(parent).id);
+            //            console.log("selectable = " + selectable);
+        }
+
         function checkCardLocation(id, from) {
+            console.log("checkCardLocation(id = " + id + " from = " + from + ")");
             var cards = JSON.parse(localStorage.cards);
             if (cards[id].location == from) {
                 return true;
@@ -114,6 +171,7 @@
         }
 
         function getCardInLocation(from) {
+            console.log("getCardInLocation(from = " + from + ")");
             var cards = JSON.parse(localStorage.cards);
             for (var i = 0; i < cards.length; i++) {
                 if (cards[i].location == from) {
@@ -125,6 +183,7 @@
         }
 
         function loadCards() {
+            console.log("loadCards()");
             var cards = JSON.parse(localStorage.cards);
             for (var i = 0; i < cards.length; i++) {
                 if (cards[i].location != "deck" && cards[i].location != "start") {
@@ -134,16 +193,26 @@
         }
 
         function allowDrop(ev) {
-            ev.preventDefault();
+            console.log("allowDrop(ev.target.id = " + ev.target.id + ")");
+            console.log("selectable = " + selectable);
+            if (selectable) {
+                var card = localStorage.selected;
+                dropCard(ev.target, card);
+                addCardButtons(ev.target, card);
+                selectable = false;
+                //                element.removeAttribute("onclick");
+            }
         }
 
         function drag(ev) {
+            console.log("drag(ev = " + ev + ")");
             ev.dataTransfer.setData("id", ev.target.id);
         }
 
         //        function cancelLocation
 
         function drop(ev) {
+            console.log("drop(ev = " + ev + ")");
             //            ev.preventDefault();
             //            var data = ev.dataTransfer.getData("id");
             //            ev.target.appendChild(document.getElementById(data));
@@ -152,35 +221,32 @@
 
         }
 
-        function dropCard(element) {
-            if (selectable) {
-                selectable = false;
-                var card = localStorage.selected;
-                console.log(card);
-                element.appendChild(document.getElementById(card));
-                element.classList.remove("empty");
-                selected(document.getElementById(card));
-                //                document.getElementById(card).removeAttribute("onclick");
-                addCardButtons(element, card);
-            }
+        function dropCard(element, id) {
+            console.log("dropCard(element.id = " + element.id + " id = " + id + ")");
+            element.appendChild(document.getElementById(id));
+            element.classList.remove("empty");
+            selected(document.getElementById(id));
+            //            element.removeEventListener("click", allowDrop);
         }
 
         function addCardButtons(element, id) {
+            console.log("addCardButtons(element = " + element + " id = " + id + ")");
             var btnContainer = document.createElement("DIV");
+            btnContainer.setAttribute("id", "btnContainer");
             var confirm = document.createElement("BUTTON");
             var confirmImg = document.createElement("IMG");
             confirmImg.setAttribute("src", "https://img.icons8.com/metro/26/000000/checkmark.png")
-            confirmImg.setAttribute("onclick", "confirmLocation()");
+            confirm.setAttribute("onclick", "confirmLocation(" + id + ")");
             confirm.appendChild(confirmImg);
             var rotate = document.createElement("BUTTON");
             var rotateImg = document.createElement("IMG");
             rotateImg.setAttribute("src", "https://img.icons8.com/metro/26/000000/rotate-left.png")
-            rotateImg.setAttribute("onclick", "rotateCard(" + id + ")");
+            rotate.setAttribute("onclick", "rotateCard(" + id + ")");
             rotate.appendChild(rotateImg);
             var cancel = document.createElement("BUTTON");
             var cancelImg = document.createElement("IMG");
             cancelImg.setAttribute("src", "https://img.icons8.com/metro/26/000000/delete-sign.png")
-            cancelImg.setAttribute("onclick", "cancelLocation(this)");
+            cancel.setAttribute("onclick", "cancelLocation(" + id + ")");
             cancel.appendChild(cancelImg);
 
             var textConfirm = document.createTextNode("Water");
@@ -191,10 +257,19 @@
         }
 
         function selected(element) {
+            console.log("selected(element.id = " + element.id + ")");
+            console.log("selectable = " + selectable);
             if (selectable) {
                 var turn = Number(localStorage.turns);
                 var color;
-                switch (turn % players) {
+                if ((turn % players) == 0) {
+                    var playerTurn = players;
+                } else {
+                    var playerTurn = turn % players;
+                }
+                console.log("test " + playerTurn);
+                console.log("turns " + localStorage.turns);
+                switch (playerTurn) {
                     case 1:
                         color = "red";
                         break;
@@ -213,13 +288,14 @@
                     element.classList.remove("selected");
                 } else {
                     element.classList.add("selected");
-                    element.style["boxShadow"] = "0px 0px 20px red";
+                    element.style["boxShadow"] = "0px 0px 20px " + color + "";
                     localStorage.setItem("selected", element.getAttribute("id"));
                 }
             }
         }
-        
+
         function reloadBonusSides(id) {
+            console.log("reloadBonusSides(id = " + id + ")");
             var cards = JSON.parse(localStorage.cards);
             var element = document.getElementById(id);
             var bonus = parseInt(cards[id].top);
@@ -233,7 +309,7 @@
                     bonus++;
                 }
             }
-            
+
             if (sides[0] == "+" || sides[0] == "-") {
                 element.children[1].innerHTML = sides[0];
                 element.children[1].style.backgroundColor = "white";
@@ -241,7 +317,7 @@
                 element.children[1].style.backgroundColor = sides[0];
                 element.children[1].innerHTML = "";
             }
-            
+
             if (sides[2] == "+" || sides[2] == "-") {
                 element.children[7].innerHTML = sides[2];
                 element.children[7].style.backgroundColor = "white";
@@ -249,7 +325,7 @@
                 element.children[7].style.backgroundColor = sides[2];
                 element.children[7].innerHTML = "";
             }
-            
+
             if (sides[3] == "+" || sides[3] == "-") {
                 element.children[3].innerHTML = sides[3];
                 element.children[3].style.backgroundColor = "white";
@@ -257,8 +333,8 @@
                 element.children[3].style.backgroundColor = sides[3];
                 element.children[3].innerHTML = "";
             }
-            
-            
+
+
             if (sides[1] == "+" || sides[1] == "-") {
                 element.children[5].innerHTML = sides[1];
                 element.children[5].style.backgroundColor = "white";
@@ -266,11 +342,10 @@
                 element.children[5].style.backgroundColor = sides[1];
                 element.children[5].innerHTML = "";
             }
-            
-            console.log(element.childElementCount);
         }
 
         function makeCard(id, location = null) {
+            console.log("makeCard(id = " + id + " location = " + location + ")");
             var cards = JSON.parse(localStorage.cards);
             var element;
             if (location == null) {
@@ -353,6 +428,7 @@
         }
 
         function resetGame() {
+            console.log("resetGame()");
             localStorage.clear();
             location.reload();
         }
@@ -378,33 +454,33 @@
     </div>
     <div id="board">
         <div class="grid-container">
-            <div id="b00" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b01" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b02" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b03" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b04" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b10" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b11" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b12" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b13" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b14" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b20" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b21" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div id="b00" class="empty"></div>
+            <div id="b01" class="empty"></div>
+            <div id="b02" class="empty"></div>
+            <div id="b03" class="empty"></div>
+            <div id="b04" class="empty"></div>
+            <div id="b10" class="empty"></div>
+            <div id="b11" class="empty"></div>
+            <div id="b12" class="empty"></div>
+            <div id="b13" class="empty"></div>
+            <div id="b14" class="empty"></div>
+            <div id="b20" class="empty"></div>
+            <div id="b21" class="empty"></div>
             <div id="b22" class="center">City Square<br>
                 <font size="10">1</font>
             </div>
-            <div id="b23" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b24" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b30" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b31" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b32" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b33" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b34" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b40" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b41" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b42" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b43" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
-            <div id="b44" class="empty" onclick="dropCard(this)" ondragover="allowDrop(event)"></div>
+            <div id="b23" class="empty"></div>
+            <div id="b24" class="empty"></div>
+            <div id="b30" class="empty"></div>
+            <div id="b31" class="empty"></div>
+            <div id="b32" class="empty"></div>
+            <div id="b33" class="empty"></div>
+            <div id="b34" class="empty"></div>
+            <div id="b40" class="empty"></div>
+            <div id="b41" class="empty"></div>
+            <div id="b42" class="empty"></div>
+            <div id="b43" class="empty"></div>
+            <div id="b44" class="empty"></div>
         </div>
     </div>
     <button onclick="resetGame()">Reset</button>
