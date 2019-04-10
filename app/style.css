@@ -92,3 +92,19 @@
 .selected {
 /*    box-shadow: 0px 0px 20px red;*/
 }
+
+.player1 {
+    box-shadow: 0px 0px 20px red;
+}
+
+.player2 {
+    box-shadow: 0px 0px 20px green;
+}
+
+.player3 {
+    box-shadow: 0px 0px 20px blue;
+}
+
+.player4 {
+    box-shadow: 0px 0px 20px yellow;
+}
