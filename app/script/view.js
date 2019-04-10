@@ -2,14 +2,29 @@ function buildDeck(data) {
     //    console.log("buildDeck(data = " + data + ")");
     var cards = JSON.parse(data);
     if (localStorage.getItem("cards") === null) {
+        var spent = [
+            {
+                "spent": 0,
+            },
+            {
+                "spent": 0,
+            },
+            {
+                "spent": 0,
+            },
+            {
+                "spent": 0,
+            }];
+        setSpent(spent);
         setCards(cards.cards);
         setTurns(0);
         startBoard();
-        getTurn();
+        increaseTurn();
+        setTurn(getPlayerTurn());
     }
     loadCards();
-    getScore();
-    
+    setScore(getScore());
+
     //Don't allow user to move starting cards
     document.getElementById("b21").firstChild.removeAttribute("onclick");
     document.getElementById("b21").removeEventListener("click", allowDrop, true);
@@ -96,7 +111,6 @@ function playerColor(element) {
     } else {
         var player = turn % players;
     }
-    setCardPlayer(element.id, player);
 
     switch (player) {
         case 1:
@@ -194,4 +208,36 @@ function makeCard(id, location = null) {
     element.appendChild(container);
     element.classList.remove("empty");
 
+}
+
+function moveCard(id, location) {
+    var element = document.getElementById(id);
+    var newElement = document.getElementById(location);
+    element.style.width = element.parentElement.clientWidth + "px";
+    element.style.position = "absolute";
+    var rect = element.getBoundingClientRect();
+    var newRect = newElement.getBoundingClientRect();
+    console.log(element);
+    var top = Math.round(rect.top);
+    var left = Math.round(rect.left);
+    var interval = setInterval(frame, 10);
+
+    function frame() {
+        if (top == Math.round(newRect.top) && left == Math.round(newRect.left)) {
+            clearInterval(interval);
+            dropCard(newElement, id);
+    element.style.position = "";
+        } else {
+            console.log(newRect.left);
+            console.log(left);
+            if (top != newRect.top) {
+                top++;
+            }
+            if (left != newRect.left) {
+                left++;
+            }
+            element.style.top = top + 'px';
+            element.style.left = left + 'px';
+        }
+    }
 }

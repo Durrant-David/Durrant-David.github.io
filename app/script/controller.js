@@ -32,21 +32,28 @@ function loadCards() {
     }
 }
 
-function getTurn() {
-    console.log("getTurn()");
+function increaseTurn() {
     var turns = Number(getTurns());
     if (turns < (25 - players)) {
         setTurns(++turns);
         setSelectable(true);
     }
+}
 
+function getPlayerTurn() {
+    console.log("getPlayerTurn()");
+    var turns = Number(getTurns());
+    
     if ((turns % players) == 0) {
         var playerTurn = players;
     } else {
         var playerTurn = turns % players;
     }
-    console.log(playerTurn);
-    document.getElementById("playerTurn").innerHTML = "Player " + playerTurn;
+    return playerTurn;
+}
+
+function setTurn(player) {
+    document.getElementById("playerTurn").innerHTML = "Player " + player;
 }
 
 function reloadDrawPile() {
@@ -61,22 +68,25 @@ function reloadDrawPile() {
     console.log(draw3);
     if (draw3 == null) {
         draw3 = draw2;
+        moveCard(draw3, "draw3");
         setCardLocation(draw2, "draw3")
-        dropCard(document.getElementById("draw3"), draw2);
+//        dropCard(document.getElementById("draw3"), draw2);
         draw2 = null;
     }
 
     if (draw2 == null) {
         draw2 = draw1;
+        moveCard(draw2, "draw2");
         setCardLocation(draw1, "draw2")
-        dropCard(document.getElementById("draw2"), draw1);
+//        dropCard(document.getElementById("draw2"), draw1);
         draw1 = null;
     }
 
     if (draw1 == null) {
         draw1 = draw0;
+        moveCard(draw1, "draw1");
         setCardLocation(draw0, "draw1")
-        dropCard(document.getElementById("draw1"), draw0);
+//        dropCard(document.getElementById("draw1"), draw0);
         draw0 = null;
     }
 
@@ -118,20 +128,40 @@ function cancelLocation(id) {
 
 function confirmLocation(id) {
     console.log("confirmLocation(id = " + id + ")");
+    var draw = getCardLocation(id);
+    var cost = 0;
     var location = document.getElementById(id).parentNode;
+    setCardPlayer(id, getPlayerTurn());
     setCardLocation(id, location.id);
     location.removeChild(location.lastChild);
     location.firstChild.removeAttribute("onclick");
     location.removeEventListener("click", allowDrop, true);
     setSelected(-1);
     reloadDrawPile();
-    getTurn();
     for (var i = 0; i < cardCount(); i++) {
         if (getCardPlayer(i) != "") {
             checkCardsAround(i);
         }
     }
-    getScore();
+    switch (draw) {
+        case "draw0":
+            cost = 6
+            break;
+        case "draw1":
+            cost = 4
+            break;
+        case "draw2":
+            cost = 2
+            break;
+        case "draw3":
+            cost = 1
+            break;
+    }
+    setScore(getScore());
+    var spent = getSpentPlayer(getPlayerTurn() - 1)
+    setSpentPlayer(getPlayerTurn() - 1, (spent + cost));
+    increaseTurn();
+    setTurn(getPlayerTurn());
 }
 
 function allowDrop(ev) {
@@ -156,11 +186,52 @@ function selected(element) {
         var id = getSelected();
         console.log(id);
         console.log(element.id);
-        if (element.id != id && id != null && id != -1) {
-            document.getElementById(id).style.boxShadow = "";
+        var score = getScore();
+        console.log(score[getPlayerTurn() - 1]);
+        switch (score[getPlayerTurn() - 1] - getSpentPlayer(getPlayerTurn() - 1)) {
+            case 6:
+                if (getCardLocation(element.id) == "draw0") {
+                    if (element.id != id && id != null && id != -1) {
+                        document.getElementById(id).style.boxShadow = "";
+                    }
+                    playerColor(element);
+                    setSelected(element.id);
+                }
+            case 5:
+            case 4:
+                if (getCardLocation(element.id) == "draw1") {
+                    if (element.id != id && id != null && id != -1) {
+                        document.getElementById(id).style.boxShadow = "";
+                    }
+                    playerColor(element);
+                    setSelected(element.id);
+                }
+            case 3:
+            case 2:
+                if (getCardLocation(element.id) == "draw2") {
+                    if (element.id != id && id != null && id != -1) {
+                        document.getElementById(id).style.boxShadow = "";
+                    }
+                    playerColor(element);
+                    setSelected(element.id);
+                }
+            case 1:
+                if (getCardLocation(element.id) == "draw3") {
+                    if (element.id != id && id != null && id != -1) {
+                        document.getElementById(id).style.boxShadow = "";
+                    }
+                    playerColor(element);
+                    setSelected(element.id);
+                }
+            case 0:
+                break;
+            default:
+                if (element.id != id && id != null && id != -1) {
+                    document.getElementById(id).style.boxShadow = "";
+                }
+                playerColor(element);
+                setSelected(element.id);
         }
-        playerColor(element);
-        setSelected(element.id);
     }
 }
 
@@ -209,7 +280,7 @@ function checkCardsAround(id) {
     var right = "b" + parent1 + (parent2 + 1);
     var bottom = "b" + (parent1 + 1) + parent2;
     var left = "b" + parent1 + (parent2 - 1);
-    
+
     if (top == "b22") {
         if (sides[0] == "+") {
             score += 1;
@@ -235,7 +306,7 @@ function checkCardsAround(id) {
             score -= 1;
         }
     }
-    
+
     for (var i = 0; i < cardCount(); i++) {
         if (getCardLocation(i) == top) {
             if (sides[0] == "+") {
@@ -294,35 +365,37 @@ function checkCardsAround(id) {
 }
 
 function getScore() {
-    var player1 = 0;
-    var player2 = 0;
-    var player3 = 0;
-    var player4 = 0;
+    var scores = [0, 0, 0, 0];
+    //    console.log(player1);
     for (var i = 0; i < cardCount(); i++) {
         switch (getCardPlayer(i)) {
             case 1:
-                player1 += getCardScore(i);
+                scores[0] += Number(getCardScore(i));
                 break;
             case 2:
-                player2 += getCardScore(i);
+                scores[1] += Number(getCardScore(i));
                 break;
             case 3:
-                player3 += getCardScore(i);
+                scores[2] += Number(getCardScore(i));
                 break;
             case 4:
-                player4 += getCardScore(i);
+                scores[3] += Number(getCardScore(i));
                 break;
         }
     }
+    console.log("getScore return: " + scores);
+    return scores;
+}
 
+function setScore(scores) {
     switch (players) {
         case 4:
-            document.getElementById("player4").innerHTML = "Player 4: " + player4;
+            document.getElementById("player4").innerHTML = "Player 4: " + (scores[3] - getSpentPlayer(3));
         case 3:
-            document.getElementById("player3").innerHTML = "Player 3: " + player3;
+            document.getElementById("player3").innerHTML = "Player 3: " + (scores[2] - getSpentPlayer(2));
         case 2:
-            document.getElementById("player2").innerHTML = "Player 2: " + player2;
-            document.getElementById("player1").innerHTML = "Player 1: " + player1;
+            document.getElementById("player2").innerHTML = "Player 2: " + (scores[1] - getSpentPlayer(1));
+            document.getElementById("player1").innerHTML = "Player 1: " + (scores[0] - getSpentPlayer(0));
     }
 }
 

@@ -192,3 +192,31 @@ function setSelected(id) {
     localStorage.setItem("selected", id);
 }
 /*****END SELECTED*****/
+
+/*****START SPENT*****/
+function getSpent() {
+    console.log("getSpent()");
+    return JSON.parse(localStorage.spent);
+}
+
+function setSpent(spent) {
+    console.log("setSpent()");
+    localStorage.setItem("spent", JSON.stringify(spent));
+}
+
+function getSpentPlayer(id) {
+    console.log("getSpentPlayer(id = " + id + ")");
+    var spent = getSpent();
+    console.log("getSpentPlayer return: " + spent[id].spent);
+    return spent[id].spent;
+}
+
+function setSpentPlayer(id, num) {
+    console.log("setSpentPlayer(id = " + id + " num = " + num + ")");
+    var spent = getSpent();
+    spent[id].spent = num;
+    setSpent(spent);
+    console.log("getSpentPlayer end");
+}
+/*****END SCORE*****/
+
