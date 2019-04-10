@@ -52,6 +52,7 @@ function setCardLocation(id, location) {
 function getCardBasenum(id) {
     console.log("getCardBasenum(id = " + id + ")");
     var cards = getCards();
+    console.log("getCardBasenum return: " + cards[id].basenum);
     return cards[id].basenum;
 }
 
@@ -78,6 +79,7 @@ function setCardScore(id, score) {
 function getCardPlayer(id) {
     console.log("getCardPlayer(id = " + id + ")");
     var cards = getCards();
+    console.log("getCardPlayer return = " + cards[id].player);
     return cards[id].player;
 }
 
@@ -104,6 +106,7 @@ function setCardBasecolor(id, basecolor) {
 function getCardTop(id) {
     console.log("getCardTop(id = " + id + ")");
     var cards = getCards();
+    console.log("getCardTop return: " + cards[id].top);
     return cards[id].top;
 }
 
@@ -118,8 +121,10 @@ function getCardBonus(id, side = null) {
     console.log("getCardBonus(id = " + id + " side = " + side + ")");
     var cards = getCards();
     if (side == null) {
+        console.log("getCardBonus return = " + cards[id].bonus);
         return cards[id].bonus;
     } else {
+        console.log("getCardBonus return = " + cards[id].bonus[side]);
         return cards[id].bonus[side];
     }
 }

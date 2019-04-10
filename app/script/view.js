@@ -8,7 +8,8 @@ function buildDeck(data) {
         getTurn();
     }
     loadCards();
-
+    getScore();
+    
     //Don't allow user to move starting cards
     document.getElementById("b21").firstChild.removeAttribute("onclick");
     document.getElementById("b21").removeEventListener("click", allowDrop, true);
@@ -51,6 +52,13 @@ function startBoard() {
         case 2:
             document.getElementById("player2").innerHTML = "Player 2: ";
             document.getElementById("player1").innerHTML = "Player 1: ";
+    }
+
+    for (var i = 0; i < cardCount(); i++) {
+        console.log(getCardPlayer(i));
+        if (getCardPlayer(i) != "") {
+            checkCardsAround(i);
+        }
     }
 }
 
@@ -163,7 +171,14 @@ function makeCard(id, location = null) {
     var center = document.createElement("DIV");
     center.setAttribute("class", "card-center");
     center.style.backgroundColor = getCardBasecolor(id);
-    center.innerHTML = getCardName(id) + "<br>" + getCardBasenum(id) + "<br><br>" + getCardBonuscard(id);
+    if (Number(getCardScore(id)) == 0) {
+        setCardScore(id, getCardBasenum(id));
+    }
+    var currentScore = "";
+    if (getCardScore(id) != getCardBasenum(id)) {
+        currentScore = getCardScore(id) + "<br>";
+    }
+    center.innerHTML = getCardName(id) + "<br>" + getCardBasenum(id) + "<br><br>" + currentScore + getCardBonuscard(id);
 
     container.appendChild(corner);
     container.appendChild(top);

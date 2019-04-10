@@ -128,7 +128,7 @@ function confirmLocation(id) {
     getTurn();
     for (var i = 0; i < cardCount(); i++) {
         if (getCardPlayer(i) != "") {
-        checkCardsAround(i);
+            checkCardsAround(i);
         }
     }
     getScore();
@@ -199,15 +199,43 @@ function getBonusSides(id) {
 }
 
 function checkCardsAround(id) {
+    console.log("checkCardsAround(id: " + id + ")");
     var score = Number(getCardBasenum(id));
     var sides = getBonusSides(id);
-    var parent = document.getElementById(id).parentElement.id;
+    var parent = getCardLocation(id);
     var parent1 = Number(parent[1]);
     var parent2 = Number(parent[2]);
     var top = "b" + (parent1 - 1) + parent2;
     var right = "b" + parent1 + (parent2 + 1);
     var bottom = "b" + (parent1 + 1) + parent2;
     var left = "b" + parent1 + (parent2 - 1);
+    
+    if (top == "b22") {
+        if (sides[0] == "+") {
+            score += 1;
+        } else if (sides[0] == "-") {
+            score -= 1;
+        }
+    } else if (right == "b22") {
+        if (sides[1] == "+") {
+            score += 1;
+        } else if (sides[1] == "-") {
+            score -= 1;
+        }
+    } else if (bottom == "b22") {
+        if (sides[2] == "+") {
+            score += 1;
+        } else if (sides[2] == "-") {
+            score -= 1;
+        }
+    } else if (left == "b22") {
+        if (sides[3] == "+") {
+            score += 1;
+        } else if (sides[3] == "-") {
+            score -= 1;
+        }
+    }
+    
     for (var i = 0; i < cardCount(); i++) {
         if (getCardLocation(i) == top) {
             if (sides[0] == "+") {
@@ -216,8 +244,8 @@ function checkCardsAround(id) {
                 score -= Number(getCardBasenum(i));
             } else if (sides[0] == getCardBasecolor(i)) {
                 score += Number(getCardBasenum(i)) * 2;
-            } 
-            
+            }
+
             if (getCardBonuscard(id) == getCardName(i)) {
                 score += 5;
             }
@@ -228,12 +256,12 @@ function checkCardsAround(id) {
                 score -= Number(getCardBasenum(i));
             } else if (sides[1] == getCardBasecolor(i)) {
                 score += Number(getCardBasenum(i)) * 2;
-            } 
-            
+            }
+
             if (getCardBonuscard(id) == getCardName(i)) {
                 score += 5;
             }
-            
+
         } else if (getCardLocation(i) == bottom) {
             if (sides[2] == "+") {
                 score += Number(getCardBasenum(i));
@@ -241,12 +269,12 @@ function checkCardsAround(id) {
                 score -= Number(getCardBasenum(i));
             } else if (sides[2] == getCardBasecolor(i)) {
                 score += Number(getCardBasenum(i)) * 2;
-            } 
-            
+            }
+
             if (getCardBonuscard(id) == getCardName(i)) {
                 score += 5;
             }
-            
+
         } else if (getCardLocation(i) == left) {
             if (sides[3] == "+") {
                 score += Number(getCardBasenum(i));
@@ -254,12 +282,12 @@ function checkCardsAround(id) {
                 score -= Number(getCardBasenum(i));
             } else if (sides[3] == getCardBasecolor(i)) {
                 score += Number(getCardBasenum(i)) * 2;
-            } 
-            
+            }
+
             if (getCardBonuscard(id) == getCardName(i)) {
                 score += 5;
             }
-            
+
         }
     }
     setCardScore(id, score);
