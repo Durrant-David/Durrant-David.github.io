@@ -12,8 +12,17 @@
             localStorage.setItem("selectable", false);
         }
         var players = 2;
+        var event = new Event('build');
 
         document.addEventListener("DOMContentLoaded", function() {
+            
+var mutationObserver = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    console.log(mutation);
+  });
+});
+//            document.getElementById("drawPile").addEventListener("webkitTransitionEnd", myFunction);
+//            document.getElementById("drawPile").addEventListener("transitionend", myFunction);
             console.log("Load content");
             localStorage.setItem("selectable", true);
             for (var i = 0; i < 5; i++) {
@@ -35,7 +44,16 @@
     <p id="demo"></p>
     <div id="drawPile">
         <div class="grid-container">
-            <div id="draw-pile" class="draw-pile">Draw<br>Pile</div>
+            <div id="draw-pile" class="draw-pile">
+<!--                <div class="card">-->
+                    <div class="card-inner">
+                        <div class="card-back">
+                        </div>
+                        <div id="newCard" class="card-front">
+                        </div>
+                    </div>
+<!--                </div>-->
+            </div>
             <div id="draw0" class="empty"></div>
             <div id="draw1" class="empty"></div>
             <div id="draw2" class="empty"></div>
@@ -86,6 +104,4 @@
         <div id="player4"></div>
     </div>
     <button onclick="resetGame()">Reset</button>
-</body>
-
-</html>
+</body></html>

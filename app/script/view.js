@@ -217,26 +217,26 @@ function moveCard(id, location) {
     element.style.position = "absolute";
     var rect = element.getBoundingClientRect();
     var newRect = newElement.getBoundingClientRect();
-    console.log(element);
+//    console.log(newRect.top);
     var top = Math.round(rect.top);
     var left = Math.round(rect.left);
     var interval = setInterval(frame, 10);
 
-    function frame() {
-        if (top == Math.round(newRect.top) && left == Math.round(newRect.left)) {
+    function frame() { //top == Math.round(newRect.top) &&
+        if (left > Math.round(newRect.left)) {
             clearInterval(interval);
             dropCard(newElement, id);
-    element.style.position = "";
+            element.style.position = "";
+            element.dispatchEvent(new Event('build'));
         } else {
-            console.log(newRect.left);
-            console.log(left);
-            if (top != newRect.top) {
-                top++;
-            }
+//    console.log(left + " " + newRect.left);
+//            if (top != newRect.top) {
+//                top++;
+//            }
             if (left != newRect.left) {
                 left++;
             }
-            element.style.top = top + 'px';
+//            element.style.top = top + 'px';
             element.style.left = left + 'px';
         }
     }

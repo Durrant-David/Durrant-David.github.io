@@ -43,7 +43,7 @@ function increaseTurn() {
 function getPlayerTurn() {
     console.log("getPlayerTurn()");
     var turns = Number(getTurns());
-    
+
     if ((turns % players) == 0) {
         var playerTurn = players;
     } else {
@@ -58,43 +58,72 @@ function setTurn(player) {
 
 function reloadDrawPile() {
     console.log("reloadDrawPile()");
+
+    drawCard("newCard", "deck");
+    makeCard(getCardInLocation("newCard"));
+    document.getElementById("drawPile").classList.add("active");
+    var newCard = getCardInLocation("newCard");
+    console.log("newCard = " + newCard);
     var draw0 = getCardInLocation("draw0");
-    console.log(draw0);
+    console.log("draw0 = " + draw0);
     var draw1 = getCardInLocation("draw1");
-    console.log(draw1);
+    console.log("draw1 = " + draw1);
     var draw2 = getCardInLocation("draw2");
-    console.log(draw2);
+    console.log("draw2 = " + draw2);
     var draw3 = getCardInLocation("draw3");
-    console.log(draw3);
+    console.log("draw3 = " + draw3);
     if (draw3 == null) {
-        draw3 = draw2;
-        moveCard(draw3, "draw3");
+        moveCard(draw2, "draw3");
         setCardLocation(draw2, "draw3")
-//        dropCard(document.getElementById("draw3"), draw2);
-        draw2 = null;
-    }
-
-    if (draw2 == null) {
-        draw2 = draw1;
-        moveCard(draw2, "draw2");
+    } else if (draw2 == null) {
+        moveCard(draw1, "draw2");
         setCardLocation(draw1, "draw2")
-//        dropCard(document.getElementById("draw2"), draw1);
-        draw1 = null;
-    }
-
-    if (draw1 == null) {
-        draw1 = draw0;
-        moveCard(draw1, "draw1");
+    } else if (draw1 == null) {
+        moveCard(draw0, "draw1");
         setCardLocation(draw0, "draw1")
-//        dropCard(document.getElementById("draw1"), draw0);
-        draw0 = null;
+    } else if (draw0 == null) {
+        moveCard(newCard, "draw0");
+        setCardLocation(newCard, "draw0")
+    }
+    if (draw2 != null) {
+        document.getElementById(draw2).addEventListener('build', function (e) {
+            moveCard(draw1, "draw2");
+            setCardLocation(draw1, "draw2");
+            document.getElementById(draw2).parentElement.removeChild(document.getElementById(draw0));
+        }, false);
     }
 
-    if (draw0 == null) {
-        console.log("null");
-        drawCard("draw0", "deck");
-        makeCard(getCardInLocation("draw0"));
+    if (draw1 != null) {
+        document.getElementById(draw1).addEventListener('build', function (e) {
+            moveCard(draw0, "draw1");
+            setCardLocation(draw0, "draw1");
+
+            if (document.getElementById(draw2).parentElement != null) {
+                document.getElementById(draw2).parentElement.removeChild(document.getElementById(draw2));
+            }
+            makeCard(draw2);
+        }, false);
     }
+
+    if (draw0 != null) {
+        document.getElementById(draw0).addEventListener('build', function (e) {
+            moveCard(newCard, "draw0");
+            setCardLocation(newCard, "draw0");
+
+            if (document.getElementById(draw1).parentElement != null) {
+                document.getElementById(draw1).parentElement.removeChild(document.getElementById(draw1));
+            }
+            makeCard(draw1);
+        }, false);
+    }
+
+    document.getElementById(newCard).addEventListener('build', function (e) {
+        if (document.getElementById(draw0).parentElement != null) {
+            document.getElementById(draw0).parentElement.removeChild(document.getElementById(draw0));
+        }
+        makeCard(draw0);
+        document.getElementById("drawPile").classList.remove("active");
+    }, false);
 }
 
 function rotateCard(id, top = null) {
@@ -398,6 +427,7 @@ function setScore(scores) {
             document.getElementById("player1").innerHTML = "Player 1: " + (scores[0] - getSpentPlayer(0));
     }
 }
+
 
 function resetGame() {
     console.log("resetGame()");

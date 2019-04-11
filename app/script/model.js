@@ -14,143 +14,143 @@ function loadFiles(url, callback) {
 /*****START CARD*****/
 // GETTERS/SETTERS for card api
 function getCards() {
-    console.log("getCards()");
+//    console.log("getCards()");
     return JSON.parse(localStorage.cards);
 }
 
 function setCards(cards) {
-    console.log("setCards()");
+//    console.log("setCards()");
     localStorage.setItem("cards", JSON.stringify(cards));
 }
 
 function getCardName(id) {
-    console.log("getCardName(id = " + id + ")");
+//    console.log("getCardName(id = " + id + ")");
     var cards = getCards();
     return cards[id].name;
 }
 
 function setCardName(id, name) {
-    console.log("setCardName()");
+//    console.log("setCardName()");
     var cards = getCards();
     cards[id].name = name;
     setCards(cards);
 }
 
 function getCardLocation(id) {
-    console.log("getCardLocation(id = " + id + ")");
+//    console.log("getCardLocation(id = " + id + ")");
     var cards = getCards();
     return cards[id].location;
 }
 
 function setCardLocation(id, location) {
-    console.log("setCardLocation(id = " + id + " location = " + location + ")");
+//    console.log("setCardLocation(id = " + id + " location = " + location + ")");
     var cards = getCards();
     cards[id].location = location;
     setCards(cards);
 }
 
 function getCardBasenum(id) {
-    console.log("getCardBasenum(id = " + id + ")");
+//    console.log("getCardBasenum(id = " + id + ")");
     var cards = getCards();
-    console.log("getCardBasenum return: " + cards[id].basenum);
+//    console.log("getCardBasenum return: " + cards[id].basenum);
     return cards[id].basenum;
 }
 
 function setCardBasenum(id, basenum) {
-    console.log("setCardBasenum()");
+//    console.log("setCardBasenum()");
     var cards = getCards();
     cards[id].basenum = basenum;
     setCards(cards);
 }
 
 function getCardScore(id) {
-    console.log("getCardScore(id = " + id + ")");
+//    console.log("getCardScore(id = " + id + ")");
     var cards = getCards();
     return cards[id].score;
 }
 
 function setCardScore(id, score) {
-    console.log("setCardScore()");
+//    console.log("setCardScore()");
     var cards = getCards();
     cards[id].score = score;
     setCards(cards);
 }
 
 function getCardPlayer(id) {
-    console.log("getCardPlayer(id = " + id + ")");
+//    console.log("getCardPlayer(id = " + id + ")");
     var cards = getCards();
-    console.log("getCardPlayer return = " + cards[id].player);
+//    console.log("getCardPlayer return = " + cards[id].player);
     return cards[id].player;
 }
 
 function setCardPlayer(id, player) {
-    console.log("setCardPlayer()");
+//    console.log("setCardPlayer()");
     var cards = getCards();
     cards[id].player = player;
     setCards(cards);
 }
 
 function getCardBasecolor(id) {
-    console.log("getCardBasecolor(id = " + id + ")");
+//    console.log("getCardBasecolor(id = " + id + ")");
     var cards = getCards();
     return cards[id].basecolor;
 }
 
 function setCardBasecolor(id, basecolor) {
-    console.log("setCardBasecolor()");
+//    console.log("setCardBasecolor()");
     var cards = getCards();
     cards[id].basecolor = basecolor;
     setCards(cards);
 }
 
 function getCardTop(id) {
-    console.log("getCardTop(id = " + id + ")");
+//    console.log("getCardTop(id = " + id + ")");
     var cards = getCards();
-    console.log("getCardTop return: " + cards[id].top);
+//    console.log("getCardTop return: " + cards[id].top);
     return cards[id].top;
 }
 
 function setCardTop(id, top) {
-    console.log("setCardTop(id = " + id + " top = " + top + ")");
+//    console.log("setCardTop(id = " + id + " top = " + top + ")");
     var cards = getCards();
     cards[id].top = top;
     setCards(cards);
 }
 
 function getCardBonus(id, side = null) {
-    console.log("getCardBonus(id = " + id + " side = " + side + ")");
+//    console.log("getCardBonus(id = " + id + " side = " + side + ")");
     var cards = getCards();
     if (side == null) {
-        console.log("getCardBonus return = " + cards[id].bonus);
+//        console.log("getCardBonus return = " + cards[id].bonus);
         return cards[id].bonus;
     } else {
-        console.log("getCardBonus return = " + cards[id].bonus[side]);
+//        console.log("getCardBonus return = " + cards[id].bonus[side]);
         return cards[id].bonus[side];
     }
 }
 
 function setCardBonus(id, bonus) {
-    console.log("setCardBonus()");
+//    console.log("setCardBonus()");
     var cards = getCards();
     cards[id].bonus = bonus;
     setCards(cards);
 }
 
 function getCardBonuscard(id) {
-    console.log("getCardBonuscard(id = " + id + ")");
+//    console.log("getCardBonuscard(id = " + id + ")");
     var cards = getCards();
     return cards[id].bonuscard;
 }
 
 function setCardBonuscard(id, bonuscard) {
-    console.log("setCardBonuscard()");
+//    console.log("setCardBonuscard()");
     var cards = getCards();
     cards[id].bonuscard = bonuscard;
     setCards(cards);
 }
 
 function cardCount() {
-    console.log("cardCount()");
+//    console.log("cardCount()");
     var cards = getCards();
     return cards.length;
 }
@@ -159,64 +159,64 @@ function cardCount() {
 
 /*****START TURNS*****/
 function getTurns() {
-    console.log("getTurns()");
+//    console.log("getTurns()");
     return localStorage.turns;
 }
 
 function setTurns(turns) {
-    console.log("setTurns()");
+//    console.log("setTurns()");
     localStorage.setItem("turns", turns);
 }
 /*****END TURNs*****/
 
 /*****START SELECTABLE*****/
 function getSelectable() {
-    console.log("getSelectable()");
+//    console.log("getSelectable()");
     return localStorage.selectable;
 }
 
 function setSelectable(selectable) {
-    console.log("setSelectable()");
+//    console.log("setSelectable()");
     localStorage.setItem("selectable", selectable);
 }
 /*****END SELECTABLE*****/
 
 /*****START SELECTED*****/
 function getSelected() {
-    console.log("getSelected()");
+//    console.log("getSelected()");
     return localStorage.selected;
 }
 
 function setSelected(id) {
-    console.log("setSelected(id = " + id + ")");
+//    console.log("setSelected(id = " + id + ")");
     localStorage.setItem("selected", id);
 }
 /*****END SELECTED*****/
 
 /*****START SPENT*****/
 function getSpent() {
-    console.log("getSpent()");
+//    console.log("getSpent()");
     return JSON.parse(localStorage.spent);
 }
 
 function setSpent(spent) {
-    console.log("setSpent()");
+//    console.log("setSpent()");
     localStorage.setItem("spent", JSON.stringify(spent));
 }
 
 function getSpentPlayer(id) {
-    console.log("getSpentPlayer(id = " + id + ")");
+//    console.log("getSpentPlayer(id = " + id + ")");
     var spent = getSpent();
-    console.log("getSpentPlayer return: " + spent[id].spent);
+//    console.log("getSpentPlayer return: " + spent[id].spent);
     return spent[id].spent;
 }
 
 function setSpentPlayer(id, num) {
-    console.log("setSpentPlayer(id = " + id + " num = " + num + ")");
+//    console.log("setSpentPlayer(id = " + id + " num = " + num + ")");
     var spent = getSpent();
     spent[id].spent = num;
     setSpent(spent);
-    console.log("getSpentPlayer end");
+//    console.log("getSpentPlayer end");
 }
 /*****END SCORE*****/
 
