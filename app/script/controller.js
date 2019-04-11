@@ -58,11 +58,17 @@ function setTurn(player) {
 
 function reloadDrawPile() {
     console.log("reloadDrawPile()");
-
-    drawCard("newCard", "deck");
-    makeCard(getCardInLocation("newCard"));
-    document.getElementById("drawPile").classList.add("active");
-    var newCard = getCardInLocation("newCard");
+    var newCardLocation;
+    if (document.getElementById("drawPile").classList.contains("active")) {
+        document.getElementById("drawPile").classList.remove("active");
+        newCardLocation = "newCard1";
+    } else {
+        document.getElementById("drawPile").classList.add("active");
+        newCardLocation = "newCard2";
+    }
+    drawCard(newCardLocation, "deck");
+    makeCard(getCardInLocation(newCardLocation));
+    var newCard = getCardInLocation(newCardLocation);
     console.log("newCard = " + newCard);
     var draw0 = getCardInLocation("draw0");
     console.log("draw0 = " + draw0);
@@ -85,11 +91,15 @@ function reloadDrawPile() {
         moveCard(newCard, "draw0");
         setCardLocation(newCard, "draw0")
     }
+
+
     if (draw2 != null) {
         document.getElementById(draw2).addEventListener('build', function (e) {
             moveCard(draw1, "draw2");
             setCardLocation(draw1, "draw2");
-            document.getElementById(draw2).parentElement.removeChild(document.getElementById(draw0));
+            //           if (document.getElementById(draw2) != null) {
+            //               document.getElementById(draw2).parentElement.removeChild(document.getElementById(draw0));
+            //           }
         }, false);
     }
 
@@ -98,7 +108,7 @@ function reloadDrawPile() {
             moveCard(draw0, "draw1");
             setCardLocation(draw0, "draw1");
 
-            if (document.getElementById(draw2).parentElement != null) {
+            if (document.getElementById(draw2) != null) {
                 document.getElementById(draw2).parentElement.removeChild(document.getElementById(draw2));
             }
             makeCard(draw2);
@@ -110,7 +120,7 @@ function reloadDrawPile() {
             moveCard(newCard, "draw0");
             setCardLocation(newCard, "draw0");
 
-            if (document.getElementById(draw1).parentElement != null) {
+            if (document.getElementById(draw1) != null) {
                 document.getElementById(draw1).parentElement.removeChild(document.getElementById(draw1));
             }
             makeCard(draw1);
@@ -118,12 +128,12 @@ function reloadDrawPile() {
     }
 
     document.getElementById(newCard).addEventListener('build', function (e) {
-        if (document.getElementById(draw0).parentElement != null) {
+        if (document.getElementById(draw0) != null) {
             document.getElementById(draw0).parentElement.removeChild(document.getElementById(draw0));
         }
         makeCard(draw0);
-        document.getElementById("drawPile").classList.remove("active");
     }, false);
+
 }
 
 function rotateCard(id, top = null) {
